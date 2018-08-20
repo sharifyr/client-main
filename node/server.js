@@ -3,7 +3,7 @@ const express = require("express");
 const compression = require("compression");
 
 const app = express();
-const indexPath = path.join(__dirname, '../index.html')
+const indexPath = path.join(__dirname, './index.html')
 app.use(express.static('./dist'))
 app.use(compression());
 app.get('/', function (_, res) { res.sendFile(indexPath) });

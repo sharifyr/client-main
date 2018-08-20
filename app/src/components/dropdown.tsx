@@ -21,7 +21,7 @@ const mapStateToProps = (state: IAppState, props: IOwnProps): IStateProps => {
 };
 
 const toggleDropdown = () => {
-  UIService.toggleMenu();
+  UIService.toggleMenu()(store.dispatch);
 };
 
 const Component = (props: IStateProps) => {
@@ -29,7 +29,7 @@ const Component = (props: IStateProps) => {
     <div className="relative">
       <div className={"avatarThumb button"} onClick={toggleDropdown}>
         <div className="fa-chevron-down left"/>
-        <img src={props.image ? props.image : (config.frontendDomain + "/images/avatar.jpg")} />
+        <img src={props.image ? props.image : (config.frontendDomain + "/avatar.jpg")} />
       </div>
       {props.dropdownOpen
           ?

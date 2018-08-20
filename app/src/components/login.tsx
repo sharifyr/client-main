@@ -21,10 +21,10 @@ const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
   FormService.loginEditPassword(event.target.value);
 
 const submit = async (formData: ILoginFormData) => {
-  await UserService.login(formData);
+  await UserService.login(formData)(store.dispatch);
   const state = store.getState();
   if (state.userData.auth !== "") {
-    await ModalService.closeModal();
+    await ModalService.closeModal()(store.dispatch);
     await store.dispatch(push("/Api"));
   } else {
     logger.info("Login failed!");

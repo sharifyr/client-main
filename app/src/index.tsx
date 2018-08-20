@@ -16,8 +16,11 @@ import "./styles/basicTest.scss";
 import "./styles/swagger-ui.css";
 import "./styles/graphiql.css";
 import Logger from "./utils/logger";
+import {webSocket} from "./utils/websocket";
 
 const logger = Logger(path.basename(__filename));
+
+logger.info("initializing websocket", webSocket.readyState);
 
 const App = (
   <Provider store={store}>
