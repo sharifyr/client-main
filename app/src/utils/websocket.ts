@@ -1,21 +1,38 @@
 import * as path from "path";
 
 import Logger from "./logger";
+import { store } from "../stores/store";
 
 const logger = Logger(path.basename(__filename));
 
 logger.info("websocket module loaded");
 
-export const webSocket = new WebSocket("ws://localhost:1337");
+export class WebSocketConnectionSingleton {
 
-webSocket.onerror = (error) => {
-  logger.info("error: ", error);
-};
+  private static instance: WebSocketConnectionSingleton;
+  private constructor() {}
 
-webSocket.onopen = (socket) => {
-  logger.info("open: ", socket);
-};
+  public static get Instance() {
+    return this.instance || (this.instance = new this());
+  }
 
-webSocket.onmessage = (message) => {
-  logger.info("got message: ", message);
-};
+  public connect = () => {
+    const webSocket: WebSocket = new WebSocket("ws://localhost:1337");
+    webSocket.onerror = (error) => {
+      logger.info({"obj": error}, "error: ");
+    };
+
+    webSocket.onopen = (socket) => {
+      logger.info({"obj": socket}, "open: ");
+
+      const userData = store.getState().userData;
+      if ( userData !== null && userData.currentUserId !== null) {
+        webSocket.send(JSON.stringify(userData));
+      }
+    };
+
+    webSocket.onmessage = (message) => {
+      logger.info({"obj": message}, "got message: ");
+    };
+  }
+}
