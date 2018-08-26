@@ -1,8 +1,8 @@
 export default {
-  "authDomain": "http://localhost:3000",
-  "frontendDomain": "http://localhost",
+  "authDomain": "https://sharifyr-backend.herokuapp.com",
+  "frontendDomain": "https://sharifyr.github.io",
   "logLevel": "info",
-  "port": "80",
-  "swaggerUrl": "http://localhost:3000/swagger.json",
-  "graphqlUrl": "http://localhost:3000/graphql"
+  "port": "0", // overwritten by environment variable on deploy
+  "swaggerUrl": "https://sharifyr-backend.herokuapp.com/swagger.json",
+  "graphqlUrl": "https://sharifyr-backend.herokuapp.com/graphql"
 };
