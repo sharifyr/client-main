@@ -69,9 +69,6 @@ export const initialUIState: IUIState = {
       },
       {
         "name": "UserDiscovery"
-      },
-      {
-        "name": "Graphiql"
       }
     ]
   }

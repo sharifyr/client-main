@@ -91,7 +91,7 @@ export const post = (url: string, data: any): Promise<any> => {
   body.append( "json", JSON.stringify( data ) );
   const myHeaders = new Headers();
   myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
-  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Content-Type", "application/json; charset=utf-8");
 
   const auth = store.getState().userData.auth;
   if ( auth !== null) {
@@ -126,12 +126,13 @@ export const post = (url: string, data: any): Promise<any> => {
 
 export const put = (url: string, data: any): Promise<any> => {
   logger.info({"obj": data}, "put body");
+  logger.info({"obj": config.authDomain}, "put auth domain");
   const body = new FormData();
   // Object.keys(data).map((value: string, index: number)=>{body.append(value, data[value])});
   body.append( "json", JSON.stringify( data ) );
   const myHeaders = new Headers();
   myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
-  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Content-Type", "application/json; charset=utf-8");
 
   const auth = store.getState().userData.auth;
   if ( auth !== null) {

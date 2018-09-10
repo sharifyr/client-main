@@ -34,29 +34,46 @@ const Component = (props: IStateProps) => {
       </div>
       <div>
         <h2>Easy Signup</h2>
-        <p>We aren't interested in your life story.
-          Pick a username to share with your friends.
-          Give us an email if you want to be able to recover a lost account.
-          The rest is up to you.</p>
-        <img src="./Signup.png"/>
+        <div className="landingBlock">
+          <img className="landingImg" src="./Signup.png"/>
+          <p className="landingParagraph">We aren't interested in your life story.
+            Pick a username to share with your friends.
+            Give us an email if you want to be able to recover a lost account.
+            The rest is up to you.</p>
+        </div>
         <h2>Find and Organize Friends</h2>
-        <p>We make it easy to find those you care about.
-          The data you see and share is limited to your circle of contacts.</p>
-        <img src="./UserDiscovery.png"/>
+        <div className="landingBlock">
+          <img className="landingImg" src="./UserDiscovery.png"/>
+          <p className="landingParagraph">We make it easy to find those you care about.
+            The data you see and share is limited to your circle of contacts.</p>
+        </div>
         <h2>Add Files</h2>
-        <p>Set up a background agent on your home desktop.
-          As long as your home computer is on, you can download your files from anywhere you can access a browser.</p>
+        <div className="landingBlock">
+          <p className="landingParagraph">Set up a background agent on your home desktop.
+            As long as your home computer is on, you can download your files from anywhere you can access a browser.</p>
+        </div>
         <h2>Manage Content Access</h2>
-        <p>Let's face it. You might not want to share your spring break photos with your grandmother.
-          We give you the power to decide who has access to what from your hosted content.</p>
+        <div className="landingBlock">
+          <p className="landingParagraph">Let's face it.
+            You might not want to share your spring break photos with your grandmother.
+            We give you the power to decide who has access to what from your hosted content.</p>
+        </div>
         <h2>Discover Content</h2>
-        <p>Once you are all set up, we make it simple to search your entire peer network for content</p>
+        <div className="landingBlock">
+          <p className="landingParagraph">
+            Once you are all set up, we make it simple to search your entire peer network for content
+            </p>
+        </div>
         <h2>Download and Enjoy!</h2>
-        <p>Files move from peer to peer.
-          By removing ourselves as a central resource bottleneck we can focus on what we do best:
-          enabling our users to share their lives with each other.</p>
+        <div className="landingBlock">
+          <p className="landingParagraph">Files move from peer to peer.
+            By removing ourselves as a central resource bottleneck we can focus on what we do best:
+            enabling our users to share their lives with each other.</p>
+          </div>
         <h2>First-Class Documentation</h2>
-        <img src="./ApiDashboard.png"/>
+        <div className="landingBlock">
+          <img className="landingImg" src="./ApiDashboard.png"/>
+        </div>
       </div>
     </div>
   );

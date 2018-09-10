@@ -219,3 +219,18 @@ div {
   overflow-y: auto;
   border-style: dashed;
 }
+
+.landingImg {
+  width: 50%;
+  height: auto;
+  float: right;
+}
+.landingParagraph {
+  display: inline-block;
+  width: 50%;
+}
+
+.landingBlock {
+  width: 100%;
+  overflow: auto;
+}

@@ -15,10 +15,10 @@ const mapStateToProps = (state: IAppState, props: ILoginFormData): ILoginFormDat
   state.forms.login;
 
 const usernameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.loginEditUsername(event.target.value);
+  FormService.loginEditUsername(event.target.value)(store.dispatch);
 
 const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.loginEditPassword(event.target.value);
+  FormService.loginEditPassword(event.target.value)(store.dispatch);
 
 const submit = async (formData: ILoginFormData) => {
   await UserService.login(formData)(store.dispatch);

@@ -15,7 +15,7 @@ const logger = Logger(path.normalize(path.basename(__filename)));
 export const signup = (state: ISignupState) => {
   return async (dispatch: redux.Dispatch<IUserSerialized>) => {
     try {
-      const response = await http.put(config.authDomain + "/user/signup", state);
+      const response = await http.post(config.authDomain + "/user/signup", state);
 
       logger.info({"obj": response}, "signup response data: ");
       if (!response) {
@@ -75,7 +75,8 @@ export const del = (state: IUserSerialized) => {
 export const login = (state: Store.ILoginFormData) => {
   return async (dispatch: redux.Dispatch<IUserSerialized>) => {
     try {
-      const response = await http.put(config.authDomain + "/user/login", state);
+      logger.info({"obj": state}, "user service login state");
+      const response = await http.post(config.authDomain + "/user/login", state);
 
       logger.info({"obj": response}, "dispatching data: ");
       if (!response) {
