@@ -53,6 +53,26 @@ export const getUser = (userId: string) => {
   };
 };
 
+export const getUserList = () => {
+  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+    try {
+      const response = await http.get(config.authDomain + "/user/");
+
+      logger.info({"obj": response}, "dispatching data: " + JSON.stringify(response));
+      if (!response) {
+        throw Error("No response returned from server");
+      }
+
+      dispatch({
+        "type": UserActions.UserActionTypes.GET_USER_LIST,
+        "users": response
+      });
+    } catch (err) {
+      logger.error("Error getting data: ", err);
+    }
+  };
+};
+
 export const del = (state: IUserSerialized) => {
   return async (dispatch: redux.Dispatch<IUserSerialized>) => {
     try {

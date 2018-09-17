@@ -1,17 +1,35 @@
 import * as React from "react";
-import * as path from "path";
+import { connect } from "react-redux";
 
-const Component: React.SFC<{}> = (props: {}) => {
+import { IAppState } from "../stores/store";
+import { IUserSerialized } from "../models/IUserSerialized";
+
+interface IStateProps extends IOwnProps  {
+  "user": IUserSerialized;
+}
+
+interface IOwnProps {
+  "userId": number;
+}
+
+const mapStateToProps = (state: IAppState, props: IOwnProps): IStateProps => {
+  return {
+    "userId": props.userId,
+    "user": ([...state.userData.users.values()].find((u) => u.id === props.userId) as IUserSerialized)
+  };
+};
+
+const Component: React.SFC<IStateProps> = (props: IStateProps) => {
   return (
     <div className={"contactCard"}>
       <div className={"title width100"}>
-        Username
+        {props.user.username}
       </div>
       <div>
-        <div className={"subtitle width75 floatLeft"}>Firstname Lastname</div>
+        <div className={"subtitle width75 floatLeft"}>{props.user.firstName + " " + props.user.lastName}</div>
       </div>
       <img src=""/>
     </div>
   );
 };
-export default Component;
+export default connect(mapStateToProps)(Component);

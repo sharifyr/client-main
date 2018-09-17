@@ -6,6 +6,7 @@ import * as jwt from "jsonwebtoken";
 import * as userService from "../src/services/user";
 import { IState as SignupState } from "../src/components/signup";
 import * as Store from "../src/stores/store";
+import { IUserSerialized } from "../src/models/IUserSerialized";
 
 @suite class AuthProviderTests {
 
@@ -30,10 +31,10 @@ import * as Store from "../src/stores/store";
 
     const jwtData = jwt.decode(Store.store.getState().userData.auth) as any;
     await userService.getUser(jwtData.id);
-    const newUser = Store.store.getState().userData.users[0];
+    const newUser = [...Store.store.getState().userData.users.values()][0];
 
     await userService.del(newUser);
-    const deletedUser = Store.store.getState().userData.users[0];
+    const deletedUser = [...Store.store.getState().userData.users.values()][0];
 
     assert.equal("first", newUser.firstName);
     assert.notEqual(0, newUser.id);

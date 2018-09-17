@@ -1,19 +1,24 @@
 import * as React from "react";
-import * as path from "path";
 
-import LeftPanel from "./leftPanel";
-import MainPanel from "./mainPanel";
 import UserCard from "./userCard";
+import * as UserService from "../services/user";
+import {store} from "../stores/store";
 
-const Component: React.SFC<{}> = (props: {}) => {
-  return (
-    <div className={"mainPanel"}>
-      <div className={"placeholderText"}>
-        <div className={"width100"}>User Discovery</div>
-        {Array.apply(null, Array(20)).map(() => <UserCard/>)}
+class UserDiscovery extends React.Component {
+  public componentDidMount() {
+    UserService.getUserList()(store.dispatch);
+  }
+
+  public render() {
+    return (
+      <div className={"mainPanel"}>
+        <div className={"placeholderText"}>
+          <div className={"width100"}>User Discovery</div>
+          {store.getState().userData.discoveryUsers.map((uid) => <UserCard userId={uid}/>)}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default Component;
+export default UserDiscovery;

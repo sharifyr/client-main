@@ -1,7 +1,6 @@
 import * as redux from "redux";
 import * as path from "path";
 
-import * as Actions from "../actions/actions";
 import * as FormActions from "../actions/forms";
 import * as UserActions from "../actions/user";
 import * as ModalActions from "../actions/modal";
@@ -9,7 +8,8 @@ import * as UIActions from "../actions/ui";
 import Logger from "../utils/logger";
 import * as Store from "../stores/store";
 import {ILoginFormData, IUserData} from "../stores/store";
-import {ModalActionTypes} from "../actions/modal";
+import * as jwt from "jsonwebtoken";
+import { IUserSerialized } from "../models/IUserSerialized";
 
 const logger = Logger(path.basename(__filename));
 
@@ -112,52 +112,65 @@ export const initialUserState: IUser = {
 
 export const initialUserDataState: IUserData = {
   "currentUserId": 0,
+  "discoveryUsers": [],
   "auth": window.sessionStorage ? window.sessionStorage.accessToken || "" : "",
-  "users": []
+  "users": new Map<number, IUserSerialized>()
 };
+
+function addUsers(state: IUserData, users: IUserSerialized[]): IUserData {
+  users.forEach((u) => state.users = state.users.set(u.id as number, u));
+  return state;
+}
+
+function updateDiscovery(state: IUserData, users: number[]): IUserData {
+  const allUsers = state.discoveryUsers.concat(users);
+  const uniqueUsers = [...new Set(allUsers)];
+  return {
+    ...state,
+    ...{"discoveryUsers": uniqueUsers}
+  };
+}
+
+function login(state: IUserData, userId: number, authToken: string) {
+  return {
+    ...state,
+    ...{"currentUserId": userId as number},
+    ...{"auth": authToken}
+  };
+}
 
 function userReducer(state: IUserData = initialUserDataState, action: UserActions.UserAction): IUserData {
   logger.info({"obj": {"action": action, "state": state}}, "reducer hit:");
+  let updatedState: IUserData;
   switch (action.type) {
     case UserActions.UserActionTypes.SIGN_UP:
     case UserActions.UserActionTypes.LOG_IN:
       logger.info({"obj": {"action": action, "state": state}}, "reducer SIGN_UP/LOG_IN");
       const authToken = (action as UserActions.ISignupAction).authToken;
+      const user = (action as UserActions.ISignupAction).user;
+
       if (window.sessionStorage) {// mocha tests run without session storage
          window.sessionStorage.accessToken = authToken;
       }
-      return {
-        ...state,
-        ...{"auth": authToken}
-      };
+      updatedState = addUsers(state, [user]);
+      updatedState = login(updatedState, user.id as number, authToken);
+      return updatedState;
     case UserActions.UserActionTypes.LOG_OUT:
       if (window.sessionStorage) {
         delete window.sessionStorage.accessToken;
       }
-      return {
-        ...state,
-        ...{"auth": ""}
-      };
+      return login(state, 0, ""); // set values to default
     case UserActions.UserActionTypes.GET_USER:
       logger.info({"obj": {"action": action, "state": state}}, "reducer GET_USER");
-      const allUsers = state.users.concat([action.user]);
-      const uniqueUsers = [...new Set(allUsers)];
-      return {
-        ...state,
-        ...{"users": uniqueUsers}
-      };
+      return addUsers(state, [action.user]);
+    case UserActions.UserActionTypes.GET_USER_LIST:
+      logger.info({"obj": {"action": action, "state": state}}, "reducer GET_USER_LIST");
+      updatedState = addUsers(state, action.users);
+      const incomingUserIds = action.users.map((u) => u.id as number);
+      updatedState = updateDiscovery(updatedState, incomingUserIds);
+      return updatedState;
     default:
     logger.info({"obj": state}, "userReducer default");
-    return state;
-  }
-}
-
-function authReducer(state: {} = {}, action: UserActions.UserAction): {} {
-  logger.info({"obj": {"action": action, "state": state}}, "reducer hit:");
-  switch (action.type) {
-
-    default:
-    logger.info({"obj": state}, "authReducer default ");
     return state;
   }
 }

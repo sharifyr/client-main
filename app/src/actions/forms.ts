@@ -6,10 +6,9 @@ export enum FormActionTypes {
   LOGIN_EDIT = "FORM_LOGIN_EDIT",
 }
 
+export interface ISignupFormEditAction { type: FormActionTypes.SIGNUP_EDIT; data: ISignupFormData; }
+export interface ILoginFormEditAction { type: FormActionTypes.LOGIN_EDIT; data: ILoginFormData; }
 
-export interface ISignupFormEditAction { type: FormActionTypes.SIGNUP_EDIT, data: ISignupFormData } 
-export interface ILoginFormEditAction { type: FormActionTypes.LOGIN_EDIT, data: ILoginFormData } 
-
-export type FormActions = 
+export type FormActions =
   ILoginFormEditAction
-| ISignupFormEditAction
+| ISignupFormEditAction;

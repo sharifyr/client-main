@@ -21,16 +21,18 @@ export interface IAppState {
 
 export interface IUserData {
   "currentUserId": number;
+  "discoveryUsers": number[];
   "auth": string;
-  "users": IUserSerialized[];
+  "users": Map<number, IUserSerialized>;
 }
 
 export const initialState: IAppState = {
   "modal": Reducers.ModalTypes.NONE,
   "userData": {
     "currentUserId": 0,
+    "discoveryUsers": [],
     "auth": window.sessionStorage ? window.sessionStorage.accessToken || "" : "",
-    "users": []
+    "users": new Map<number, IUserSerialized>()
   },
   "forms": Reducers.initialFormsState,
   "ui": Reducers.initialUIState
