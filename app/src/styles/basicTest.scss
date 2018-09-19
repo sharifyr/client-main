@@ -33,6 +33,10 @@ div {
   width: 25%;
 }
 
+.width20 {
+  width: 20%;
+}
+
 .width50 {
   width: 50%;
 }
@@ -48,10 +52,17 @@ div {
   height: 50px;
   margin: 20px;
   border: 1px solid black;
+  font-size: 0.5em;
+}
+
+.contactCardPlus {
+  font-size: 5em;
+  cursor: pointer;
 }
 
 .title {
   font-size: 10px;
+  margin: 0px;
 }
 
 .subtitle {
@@ -183,7 +194,7 @@ div {
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
+.active, .accordion:hover, .contactCardPlus:hover {
   background-color: #ccc;
 }
 
