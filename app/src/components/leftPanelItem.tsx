@@ -14,7 +14,10 @@ const clickComponent = async (name: string) => {
 
 const Component = (props: IStateProps) => {
   return (
-    <button className="accordion" onClick={() => clickComponent(props.name)}>{props.name}</button>
+    <div className="relative">
+      <button className="accordion" onClick={() => clickComponent(props.name)}>{props.name}</button>
+      <div className="fa-exclamation-circle notification-bang"></div>
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as redux from "redux";
-import * as jwt from "jsonwebtoken";
 
 import * as http from "../utils/http";
 import { config } from "../config";
