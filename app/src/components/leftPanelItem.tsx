@@ -16,7 +16,6 @@ const Component = (props: IStateProps) => {
   return (
     <div className="relative">
       <button className="accordion" onClick={() => clickComponent(props.name)}>{props.name}</button>
-      <div className="fa-exclamation-circle notification-bang"></div>
     </div>
   );
 };

@@ -68,6 +68,9 @@ export const initialUIState: IUIState = {
         "name": "Contacts"
       },
       {
+        "name": "ContactRequests"
+      },
+      {
         "name": "UserDiscovery"
       }
     ]

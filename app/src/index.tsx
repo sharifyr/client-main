@@ -8,13 +8,12 @@ import { ConnectedRouter } from "react-router-redux";
 import {store, history} from "./stores/store";
 import LandingPage from "./pages/landing";
 import NotFoundPage from "./pages/notFound";
-import AboutPage from "./pages/about";
 import PrivateRoute from "./components/privateRoute";
 import Api from "./pages/api";
 import UserDiscovery from "./pages/userDiscovery";
+import ContactRequests from "./pages/contactRequests";
 import "./styles/basicTest.scss";
 import "./styles/swagger-ui.css";
-import "./styles/graphiql.css";
 import Logger from "./utils/logger";
 import {WebSocketConnectionSingleton} from "./utils/websocket";
 
@@ -26,9 +25,9 @@ const App = (
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/" component={LandingPage as any}/>
-        <Route exact path="/About" component={AboutPage}/>
         <PrivateRoute exact path="/Swagger" component={Api} />
         <PrivateRoute exact path="/UserDiscovery" component={UserDiscovery} />
+        <PrivateRoute exact path="/ContactRequests" component={ContactRequests} />
         <PrivateRoute path="/*" component={NotFoundPage as any} />
       </Switch>
     </ConnectedRouter>
