@@ -1,4 +1,4 @@
-import { ILoginFormData } from "../stores/store";
+import { ILoginFormData } from "../models/ILoginFormData";
 import { ISignupFormData } from "../reducers/reducer";
 
 export enum FormActionTypes {

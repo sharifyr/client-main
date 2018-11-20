@@ -1,13 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as path from "path";
 
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 import NavBar from "../components/navbar";
 import { IAppState } from "../stores/store";
 import { ModalTypes } from "../reducers/reducer";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 
 interface IStateProps {
   "loginModal": boolean;

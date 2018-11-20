@@ -1,9 +1,9 @@
 import * as path from "path";
 
-import Logger from "./logger";
+import { Logger } from "./logger";
 import { store } from "../stores/store";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 
 logger.info("websocket module loaded");
 

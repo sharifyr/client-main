@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Route, Redirect, RouteProps, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as path from "path";
 
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 import { IAppState } from "../stores/store";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 
 interface IOwnProps {
   component: React.ComponentClass<Pick<IStateProps, never>> | (() => JSX.Element);

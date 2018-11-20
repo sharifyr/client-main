@@ -1,12 +1,17 @@
 import * as React from "react";
+import {Inject} from "typescript-ioc";
 
 import UserCard from "./userCard";
-import * as UserService from "../services/user";
+import { IUserService } from "../services/IUserService";
 import {store} from "../stores/store";
 
 class UserDiscovery extends React.Component {
-  public componentDidMount() {
-    UserService.getUserList()(store.dispatch);
+
+  @Inject
+  private userService!: IUserService;
+
+  public componentDidMount = () => {
+    this.userService.getUserList();
   }
 
   public render() {

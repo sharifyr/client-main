@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import * as path from "path";
 
 import { ISignupFormField } from "../reducers/reducer";
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 
 const Component: React.SFC<ISignupFormField> = (props: ISignupFormField) => {
     return (

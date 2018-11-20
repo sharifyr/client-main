@@ -1,15 +1,16 @@
 import * as path from "path";
 
-import * as http from "../utils/http";
+import { Http } from "../utils/http";
 import { config } from "../config";
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 
+const http = new Http();
 const SwaggerUi = require("swagger-ui");
-const logger = Logger(path.normalize(path.basename(__filename)));
+const logger = new Logger();
 
 export const getSpec = async () => {
   try {
-    const response = await http.get(config.swaggerUrl);
+    const response = await http.Get(config.swaggerUrl);
 
     logger.info({"obj": response}, "swagger data: ");
     if (!response) {

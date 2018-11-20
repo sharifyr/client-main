@@ -1,18 +1,18 @@
 import * as path from "path";
 import * as redux from "redux";
 
-import * as http from "../utils/http";
+import { Http } from "../utils/http";
 import { config } from "../config";
-import * as UserActions from "../actions/user";
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 import { IUserSerialized } from "../models/IUserSerialized";
 
-const logger = Logger(path.normalize(path.basename(__filename)));
+const logger = new Logger();
 
+const http = new Http();
 export const createRequest = (userId: number) => {
   return async (dispatch: redux.Dispatch<IUserSerialized>) => {
     try {
-      const response = await http.put(config.authDomain + "/contacts/requests/" + userId, {});
+      const response = await http.Put(config.authDomain + "/contacts/requests/" + userId, {});
 
       logger.info({"obj": response}, "signup response data: ");
       if (!response) {
@@ -27,7 +27,7 @@ export const createRequest = (userId: number) => {
 export const getContacts = () => {
   return async (dispatch: redux.Dispatch<IUserSerialized>) => {
     try {
-      const response = await http.get(config.authDomain + "/contacts/requests");
+      const response = await http.Get(config.authDomain + "/contacts/requests");
 
       logger.info({"obj": response}, "signup response data: ");
       if (!response) {

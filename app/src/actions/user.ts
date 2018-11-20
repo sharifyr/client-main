@@ -1,5 +1,5 @@
 import { IState as SignupState } from "../components/signup";
-import { ILoginFormData } from "../stores/store";
+import { ILoginFormData } from "../models/ILoginFormData";
 import { IUserSerialized } from "../models/IUserSerialized";
 
 export enum UserActionTypes {

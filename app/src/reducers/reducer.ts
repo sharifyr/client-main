@@ -5,13 +5,14 @@ import * as FormActions from "../actions/forms";
 import * as UserActions from "../actions/user";
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 import * as Store from "../stores/store";
-import {ILoginFormData, IUserData} from "../stores/store";
+import {IUserData} from "../stores/store";
+import { ILoginFormData } from "../models/ILoginFormData";
 import * as jwt from "jsonwebtoken";
 import { IUserSerialized } from "../models/IUserSerialized";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 
 export interface IForms {
   "login": ILoginFormData;
@@ -106,12 +107,12 @@ export const initialFormsState = {
   "signup": initialSignupFormState
 };
 
-export const initialUserState: IUser = {
-  "id": 0,
-  "firstName": "",
-  "lastName": "",
-  "avatar": ""
-};
+// export const initialUserState: IUser = {
+//   "id": 0,
+//   "firstName": "",
+//   "lastName": "",
+//   "avatar": ""
+// };
 
 export const initialUserDataState: IUserData = {
   "currentUserId": 0,

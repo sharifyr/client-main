@@ -7,11 +7,6 @@ import { routerMiddleware } from "react-router-redux";
 import * as Reducers from "../reducers/reducer";
 import { IUserSerialized } from "../models/IUserSerialized";
 
-export interface ILoginFormData {
-  "username": string;
-  "password": string;
-}
-
 export interface IAppState {
   "modal": Reducers.ModalTypes;
   "forms": Reducers.IForms;

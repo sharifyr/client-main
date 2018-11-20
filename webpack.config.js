@@ -1,21 +1,14 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, '../dist/');
+var BUILD_DIR = path.resolve(__dirname, './dist/');
 
-var port = 8080;
-var https = true;
-if (process.env.NODE_ENV === "DEV") {
-  port = Number(process.env.PORT);
-  https = false;
-}
-
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 
 var config = {
-  entry: path.resolve(__dirname, './src/index.tsx'),
-  devtool: 'inline-source-map',
+  entry: './app/src/index.tsx',
+  devtool: 'source-map',
   mode: "development",
   output: {
     path: BUILD_DIR,
@@ -33,6 +26,11 @@ var config = {
       {
         test: /\.(css|scss)$/, exclude: /node_modules/,
         use: ["style-loader","css-loader","sass-loader"]
+      },
+      { 
+        test: /app\/test\/*\.ts$/,
+        use: "mocha-loader",
+        exclude: /node_modules/
       }
     ]
   },
@@ -42,12 +40,13 @@ var config = {
     __filename: true
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: BUILD_DIR,
+    host: '0.0.0.0',
     historyApiFallback: true,
-    compress: true,
-    port: port,
-    https: https
+    port: 80,
+    compress: true
   },
+  stats: 'none',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -59,9 +58,5 @@ var config = {
   ]
 };
 
-if (process.env.NODE_ENV === "DEV") {
-  config.externals = { config: "./config/herokuDev.ts" };
-} else {
-  config.externals = { config: "./config/local.ts" };
-}
+// config.externals = { config: "./config/local.ts" };
 module.exports = config;

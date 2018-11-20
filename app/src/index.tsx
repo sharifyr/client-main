@@ -1,8 +1,10 @@
-import * as path from "path";
+import * as IoC from "./dependencyResolution/IoC";
+IoC.configure();
+
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 
 import {store, history} from "./stores/store";
@@ -14,10 +16,8 @@ import UserDiscovery from "./pages/userDiscovery";
 import ContactRequests from "./pages/contactRequests";
 import "./styles/basicTest.scss";
 import "./styles/swagger-ui.css";
-import Logger from "./utils/logger";
 import {WebSocketConnectionSingleton} from "./utils/websocket";
 
-const logger = Logger(path.basename(__filename));
 WebSocketConnectionSingleton.Instance.connect();
 
 const App = (

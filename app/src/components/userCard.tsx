@@ -2,13 +2,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import * as path from "path";
 
-import Logger from "../utils/logger";
+import { Logger } from "../utils/logger";
 import { IAppState } from "../stores/store";
 import { IUserSerialized } from "../models/IUserSerialized";
 import * as ContactService from "../services/contacts";
 import { store } from "../stores/store";
 
-const logger = Logger(path.basename(__filename));
+const logger = new Logger();
 interface IStateProps extends IOwnProps  {
   "user": IUserSerialized;
 }

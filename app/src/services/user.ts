@@ -1,122 +1,86 @@
 import * as path from "path";
-import * as redux from "redux";
+import { Inject } from "typescript-ioc";
 
-import * as http from "../utils/http";
-import { config } from "../config";
 import * as UserActions from "../actions/user";
 import * as Store from "../stores/store";
-import Logger from "../utils/logger";
+import { ILogger } from "../utils/ILogger";
 import { IState as ISignupState } from "../components/signup";
 import { IUserSerialized } from "../models/IUserSerialized";
+import { ILoginFormData } from "../models/ILoginFormData";
+import { IUserClient } from "../clients/IUserClient";
+import { IUserService } from "./IUserService";
 
-const logger = Logger(path.normalize(path.basename(__filename)));
+export class UserService implements IUserService {
 
-export const signup = (state: ISignupState) => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+  @Inject
+  private userClient!: IUserClient;
+  @Inject
+  private logger!: ILogger;
+
+  public signup = async (state: ISignupState) => {
     try {
-      const response = await http.post(config.authDomain + "/user/signup", state);
+      this.logger.info("signup service");
+      const response = await this.userClient.signup(state);
 
-      logger.info({"obj": response}, "signup response data: ");
-      if (!response) {
-        throw Error("No response returned from server");
-      }
-
-      dispatch({
+      Store.store.dispatch({
         "type": UserActions.UserActionTypes.SIGN_UP,
         "authToken": response.authToken,
         "user": response.user
       });
     } catch (err) {
-      logger.error("Error getting data: ", err);
+      this.logger.error("Error getting data: ", err);
     }
-  };
-};
+  }
 
-export const getUser = (userId: string) => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+  public getUser = async (userId: string) => {
     try {
-      const response = await http.get(config.authDomain + "/user/" + userId);
-
-      logger.info({"obj": response}, "dispatching data: " + JSON.stringify(response));
-      if (!response) {
-        throw Error("No response returned from server");
-      }
-
-      dispatch({
+      Store.store.dispatch({
         "type": UserActions.UserActionTypes.GET_USER,
-        "user": response
+        "user": await this.userClient.getUser(userId)
       });
     } catch (err) {
-      logger.error("Error getting data: ", err);
+      this.logger.error("Error getting data: ", err);
     }
-  };
-};
+  }
 
-export const getUserList = () => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+  public getUserList = async () => {
     try {
-      const response = await http.get(config.authDomain + "/user/");
-
-      logger.info({"obj": response}, "dispatching data: " + JSON.stringify(response));
-      if (!response) {
-        throw Error("No response returned from server");
-      }
-
-      dispatch({
+      Store.store.dispatch({
         "type": UserActions.UserActionTypes.GET_USER_LIST,
-        "users": response
+        "users": await this.userClient.getUserList()
       });
     } catch (err) {
-      logger.error("Error getting data: ", err);
+      this.logger.error("Error getting data: ", err);
     }
-  };
-};
+  }
 
-export const del = (state: IUserSerialized) => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+  public del = async (state: IUserSerialized) => {
     try {
-      const response = await http.del(config.authDomain + "/user/" + state.id);
-
-      logger.info({"obj": response}, "dispatching data: ");
-      if (!response) {
-        throw Error("No response returned from server");
-      }
-
-      dispatch({
+      await this.userClient.del(state);
+      Store.store.dispatch({
         "type": UserActions.UserActionTypes.LOG_OUT
       });
     } catch (err) {
-      logger.error("Error getting data: ", err);
+      this.logger.error("Error getting data: ", err);
     }
-  };
-};
+  }
 
-export const login = (state: Store.ILoginFormData) => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
+  public login = async (state: ILoginFormData) => {
     try {
-      logger.info({"obj": state}, "user service login state");
-      const response = await http.post(config.authDomain + "/user/login", state);
-
-      logger.info({"obj": response}, "dispatching data: ");
-      if (!response) {
-        throw Error("No response returned from server");
-      }
-
-      dispatch({
-       "type": UserActions.UserActionTypes.LOG_IN,
+      const response = await this.userClient.login(state);
+      Store.store.dispatch({
+        "type": UserActions.UserActionTypes.LOG_IN,
         "authToken": response.authToken,
         "user": response.user
       });
     } catch (err) {
-      logger.error("Error getting data: ", err);
+      this.logger.error("Error getting data: ", err);
     }
-  };
-};
+  }
 
-export const logout = () => {
-  return async (dispatch: redux.Dispatch<IUserSerialized>) => {
-    dispatch({
+  public logout() {
+    Store.store.dispatch({
       "type": UserActions.UserActionTypes.LOG_OUT
     });
-  };
-};
+  }
+}

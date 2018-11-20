@@ -1,12 +1,15 @@
-import { suite, test, slow, timeout } from "mocha-typescript";
+import { suite, test } from "mocha-typescript";
 import "isomorphic-fetch";
 import * as assert from "assert";
 import * as jwt from "jsonwebtoken";
 
-import * as userService from "../src/services/user";
+import * as IoC from "./IoCUnitTest";
 import { IState as SignupState } from "../src/components/signup";
 import * as Store from "../src/stores/store";
-import { IUserSerialized } from "../src/models/IUserSerialized";
+import { Container } from "typescript-ioc";
+import { IUserService } from "../src/services/IUserService";
+
+IoC.configure();
 
 @suite class AuthProviderTests {
 
@@ -25,7 +28,7 @@ import { IUserSerialized } from "../src/models/IUserSerialized";
       "passwordMatch": true,
       "contacts": []
     };
-
+    const userService = Container.get(IUserService);
     await userService.signup(signupData);
     const signupState = Store.store.getState();
 

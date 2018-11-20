@@ -1,15 +1,18 @@
 import * as React from "react";
-import * as redux from "redux";
-import { connect } from "react-redux";
+import {Inject} from "typescript-ioc";
 import * as jwt from "jsonwebtoken";
+import { connect } from "react-redux";
+import * as path from "path";
 
 import { IAppState, store } from "../stores/store";
 import { ISignupFormData } from "../reducers/reducer";
 import SignupField from "../components/signupField";
-import * as UserService from "../services/user";
-import * as ModalService from "../services/modal";
+import { IUserService } from "../services/IUserService";
 import * as FormService from "../services/forms";
+import { Logger } from "../utils/logger";
+import { IState as ISignupState } from "../components/signup";
 
+const logger = new Logger();
 export interface IState {
   "username": string;
   "email": string;
@@ -24,92 +27,105 @@ export interface IState {
   "contacts": IState[];
 }
 
-const mapStateToProps = (state: IAppState, props: ISignupFormData): ISignupFormData =>
-  state.forms.signup;
+class Signup extends React.Component<ISignupFormData, {}> {
 
-const usernameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditUsername(event.target.value)(store.dispatch);
+  @Inject
+  private userService!: IUserService;
 
-const firstNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditFirstName(event.target.value)(store.dispatch);
-
-const lastNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditLastName(event.target.value)(store.dispatch);
-
-const emailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditEmail(event.target.value)(store.dispatch);
-
-const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditPassword(event.target.value)(store.dispatch);
-
-const altPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  FormService.signupEditAltPassword(event.target.value)(store.dispatch);
-
-const submit = async (formData: ISignupFormData) => {
-  if (formData.validUsername
-    && formData.validEmail
-    && formData.validPassword
-    && formData.passwordMatch) {
-    await UserService.signup({...formData, ...{"contacts": []}})(store.dispatch);
-    const state = store.getState();
-    const jwtData = (jwt.decode(state.userData.auth)as any);
-    const userId = jwtData.id;
-    await UserService.getUser(userId as string)(store.dispatch);
+  public static mapStateToProps = (state: IAppState, props: ISignupFormData): ISignupFormData => {
+    logger.info({"obj": state}, "signup mapping state to props");
+    return state.forms.signup;
   }
-};
 
-const Component = (props: ISignupFormData) => {
-  const submitWrapper = (event: React.ChangeEvent<HTMLInputElement>) => {
+  constructor(props: ISignupFormData) {
+    super(props);
+  }
 
-    submit(props);
-    event.preventDefault();
-  };
+  private usernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditUsername(event.target.value);
+  }
 
-  return (
-    <form>
-      <div>
-        <SignupField
-          label={"username"}
-          name={"username"}
-          type={"text"}
-          status={props.validUsername}
-          onChange={usernameChange}/>
-        <SignupField
-          label={"first name"}
-          name={"firstname"}
-          type={"text"}
-          status={true}
-          onChange={firstNameChange}/>
-        <SignupField
-          label={"last name"}
-          name={"lastname"}
-          type={"text"}
-          status={true}
-          onChange={lastNameChange}/>
-        <SignupField
-          label={"email"}
-          name={"email"}
-          type={"text"}
-          status={props.validEmail}
-          onChange={emailChange}/>
-        <SignupField
-          label={"password"}
-          name={"password"}
-          type={"password"}
-          status={props.passwordMatch}
-          onChange={passwordChange}/>
-        <SignupField
-          label={"repeat password"}
-          name={"altpassword"}
-          type={"password"}
-          status={props.passwordMatch}
-          onChange={altPasswordChange}/>
+  private firstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditFirstName(event.target.value);
+  }
+
+  private lastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditLastName(event.target.value);
+  }
+
+  private emailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditEmail(event.target.value);
+  }
+
+  private passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditPassword(event.target.value);
+  }
+
+  private altPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    FormService.signupEditAltPassword(event.target.value);
+  }
+
+  private submit = async (formData: ISignupFormData) => {
+    logger.info({"obj": formData}, "submit clicked");
+    if (formData.validUsername
+      && formData.validEmail
+      && formData.validPassword
+      && formData.passwordMatch) {
+      await this.userService.signup({...formData, ...{"contacts": []}});
+      const state = store.getState();
+      const jwtData = (jwt.decode(state.userData.auth)as any);
+      const userId = jwtData.id;
+      await this.userService.getUser(userId as string);
+    }
+  }
+
+  public render = () => {
+    return (
+      <form>
         <div>
-          <input type="button" value="Submit" onClick={() => submit(props)}/>
+          <SignupField
+            label={"username"}
+            name={"username"}
+            type={"text"}
+            status={this.props.validUsername}
+            onChange={this.usernameChange}/>
+          <SignupField
+            label={"first name"}
+            name={"firstname"}
+            type={"text"}
+            status={true}
+            onChange={this.firstNameChange}/>
+          <SignupField
+            label={"last name"}
+            name={"lastname"}
+            type={"text"}
+            status={true}
+            onChange={this.lastNameChange}/>
+          <SignupField
+            label={"email"}
+            name={"email"}
+            type={"text"}
+            status={this.props.validEmail}
+            onChange={this.emailChange}/>
+          <SignupField
+            label={"password"}
+            name={"password"}
+            type={"password"}
+            status={this.props.passwordMatch}
+            onChange={this.passwordChange}/>
+          <SignupField
+            label={"repeat password"}
+            name={"altpassword"}
+            type={"password"}
+            status={this.props.passwordMatch}
+            onChange={this.altPasswordChange}/>
+          <div>
+            <input type="button" value="Submit" onClick={() => this.submit(this.props)}/>
+          </div>
         </div>
-      </div>
-    </form>
-  );
-};
+      </form>
+    );
+  }
 
-export default connect(mapStateToProps)(Component);
+}
+export default connect(Signup.mapStateToProps)(Signup);
