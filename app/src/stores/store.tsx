@@ -5,11 +5,12 @@ import { createBrowserHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
 
 import * as Reducers from "../reducers/reducer";
+import { IForms, initialFormsState } from "../reducers/FormReducer";
 import { IUserSerialized } from "../models/IUserSerialized";
 
 export interface IAppState {
   "modal": Reducers.ModalTypes;
-  "forms": Reducers.IForms;
+  "forms": IForms;
   "ui": Reducers.IUIState;
   "userData": IUserData;
 }
@@ -29,7 +30,7 @@ export const initialState: IAppState = {
     "auth": window.sessionStorage ? window.sessionStorage.accessToken || "" : "",
     "users": new Map<number, IUserSerialized>()
   },
-  "forms": Reducers.initialFormsState,
+  "forms": initialFormsState,
   "ui": Reducers.initialUIState
 };
 

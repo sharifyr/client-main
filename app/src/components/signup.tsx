@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as path from "path";
 
 import { IAppState, store } from "../stores/store";
-import { ISignupFormData } from "../reducers/reducer";
+import { ISignupFormData } from "../reducers/FormReducer";
 import SignupField from "../components/signupField";
 import { IUserService } from "../services/IUserService";
 import * as FormService from "../services/forms";

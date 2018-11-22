@@ -1,5 +1,5 @@
 import { ILoginFormData } from "../models/ILoginFormData";
-import { ISignupFormData } from "../reducers/reducer";
+import { ISignupFormData } from "../reducers/FormReducer";
 
 export enum FormActionTypes {
   SIGNUP_EDIT = "FORM_SIGNUP_EDIT",
