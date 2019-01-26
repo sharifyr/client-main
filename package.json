@@ -10,10 +10,10 @@
     "run-electron": "electron ./dist/electron/electron.js",
     "run-node": "node ./dist/server.js",
     "serve": "npm run lint && npm run bundle && webpack-dev-server -d",
-    "start": "run-p serve livetest",
+    "start": "npm run serve",
     "test": "export NODE_ENV=TEST && npm run testrun && npm run testreport",
     "livetest": "mocha --watch --watch-extensions ts --require ts-node/register --require jsdom-global/register ./app/**/*.ts",
-    "testrun": "nyc --extension .ts --extension .tsx mocha --watch --watch-extensions ts --require ts-node/register --require jsdom-global/register ./app/**/*.ts",
+    "testrun": "nyc --extension .ts --extension .tsx mocha --require ts-node/register --require jsdom-global/register ./app/**/*.ts",
     "testreport": "nyc report --reporter teamcity --extension .ts --extension .tsx"
   },
   "repository": {
