@@ -32,7 +32,12 @@ IoC.configure();
     await userService.signup(signupData);
     const signupState = Store.store.getState();
 
+    console.log('signupstate ', signupState);
+
     const jwtData = jwt.decode(Store.store.getState().userData.auth) as any;
+
+    console.log("jwt data", jwtData);
+    
     await userService.getUser(jwtData.id);
     const newUser = [...Store.store.getState().userData.users.values()][0];
 
