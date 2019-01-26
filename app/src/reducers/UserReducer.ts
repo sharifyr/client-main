@@ -51,10 +51,14 @@ export class UserReducer implements IUserReducer {
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer SIGN_UP/LOG_IN");
                 const authToken = (action as UserActions.ISignupAction).authToken;
                 const user = (action as UserActions.ISignupAction).user;
+                try {// tests throw an exception when window.sessionStorage accessed
+                    if (window.sessionStorage) {// mocha tests run without session storage
+                        window.sessionStorage.accessToken = authToken;
+                    }
+                } catch {
 
-                if (window.sessionStorage) {// mocha tests run without session storage
-                    window.sessionStorage.accessToken = authToken;
                 }
+
                 updatedState = this.addUsers(state, [user]);
                 updatedState = this.login(updatedState, user.id as number, authToken);
                 return updatedState;
