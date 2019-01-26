@@ -13,6 +13,7 @@ const getAuthToken = () => {
         const token = window.sessionStorage ? window.sessionStorage.accessToken || "" : "";
         return token;
     } catch {
+        console.log('getAuthToken exception (must be running tests)')
         return "";
     }
 }

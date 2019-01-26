@@ -22,12 +22,22 @@ export interface IUserData {
   "users": Map<number, IUserSerialized>;
 }
 
+const getAuthToken = () => {
+  try {
+      const token = window.sessionStorage ? window.sessionStorage.accessToken || "" : "";
+      return token;
+  } catch {
+    console.log('getAuthToken exception (must be running tests)')
+      return "";
+  }
+}
+
 export const initialState: IAppState = {
   "modal": Reducers.ModalTypes.NONE,
   "userData": {
     "currentUserId": 0,
     "discoveryUsers": [],
-    "auth": window.sessionStorage ? window.sessionStorage.accessToken || "" : "",
+    "auth": getAuthToken(),
     "users": new Map<number, IUserSerialized>()
   },
   "forms": initialFormsState,
