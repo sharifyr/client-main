@@ -22,6 +22,9 @@ export class UserService implements IUserService {
       this.logger.info("signup service");
       const response = await this.userClient.signup(state);
 
+      console.log("signup response0: ", response);
+      console.log("signup response1: ", response.authToken);
+      console.log("signup response2: ", response.user);
       Store.store.dispatch({
         "type": UserActions.UserActionTypes.SIGN_UP,
         "authToken": response.authToken,
