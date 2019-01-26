@@ -98,6 +98,7 @@ export class ReducerMap {
   @Inject
   private formReducer!: IFormReducer;
   public getMap = () => {
+    console.log("do we have reducers? ", this.userReducer);
     return {
       "modal": (modalReducer as redux.Reducer<ModalTypes>),
       "userData": (this.userReducer.reducer as redux.Reducer<IUserData>),
