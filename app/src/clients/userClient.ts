@@ -30,6 +30,7 @@ export class UserClient implements IUserClient {
     public getUser = async (userId: string) => {
         const response = await this.http.Get(config.authDomain + "/user/" + userId);
 
+        console.log('get user response', response);
         this.logger.info({"obj": response}, "dispatching data: " + JSON.stringify(response));
         if (!response) {
           throw Error("No response returned from server");
