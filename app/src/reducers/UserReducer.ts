@@ -8,10 +8,18 @@ export interface IUserReducer {
     reducer: (state: IUserData, action: UserActions.UserAction) => IUserData;
 }
 
+const getAuthToken = () => {
+    try {
+        const token = window.sessionStorage ? window.sessionStorage.accessToken || "" : "";
+        return token;
+    } catch {
+        return "";
+    }
+}
 export const initialUserDataState: IUserData = {
     "currentUserId": 0,
     "discoveryUsers": [],
-    "auth": window.sessionStorage ? window.sessionStorage.accessToken || "" : "",
+    "auth": getAuthToken(),
     "users": new Map<number, IUserSerialized>()
 };
 
@@ -65,9 +73,14 @@ export class UserReducer implements IUserReducer {
                 console.log('reducer returning');
                 return updatedState;
             case UserActions.UserActionTypes.LOG_OUT:
-                if (window.sessionStorage) {
-                delete window.sessionStorage.accessToken;
+                try {
+                    if (window.sessionStorage) {
+                        delete window.sessionStorage.accessToken;
+                    }
+                } catch {
+
                 }
+
                 return this.login(state, 0, ""); // set values to default
             case UserActions.UserActionTypes.GET_USER:
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer GET_USER");
