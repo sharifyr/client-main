@@ -56,6 +56,7 @@ export class UserReducer implements IUserReducer {
         switch (action.type) {
             case UserActions.UserActionTypes.SIGN_UP:
             case UserActions.UserActionTypes.LOG_IN:
+            console.log("signup reducer");
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer SIGN_UP/LOG_IN");
                 const authToken = (action as UserActions.ISignupAction).authToken;
                 const user = (action as UserActions.ISignupAction).user;
