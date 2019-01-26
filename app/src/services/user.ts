@@ -30,6 +30,7 @@ export class UserService implements IUserService {
         "authToken": response.authToken,
         "user": response.user
       });
+      console.log('signup dispatched');
     } catch (err) {
       this.logger.error("Error getting data: ", err);
     }

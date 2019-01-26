@@ -51,6 +51,7 @@ export class UserReducer implements IUserReducer {
     }
 
     public reducer = (state: IUserData = initialUserDataState, action: UserActions.UserAction) => {
+        console.log('user reducer dispatched ', state, action);
         this.logger.info({"obj": {"action": action, "state": state}}, "reducer hit:");
         let updatedState: IUserData;
         switch (action.type) {
@@ -84,6 +85,7 @@ export class UserReducer implements IUserReducer {
 
                 return this.login(state, 0, ""); // set values to default
             case UserActions.UserActionTypes.GET_USER:
+                console.log("get_user reducer")
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer GET_USER");
                 return this.addUsers(state, [action.user]);
             case UserActions.UserActionTypes.GET_USER_LIST:
