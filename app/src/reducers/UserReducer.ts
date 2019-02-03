@@ -29,6 +29,10 @@ export class UserReducer implements IUserReducer {
     @Inject
     private logger!: ILogger;
 
+    public constructor () {
+        console.log("userReducer constructor called");
+    }
+
     private addUsers = (state: IUserData, users: IUserSerialized[]) => {
         users.forEach((u) => state.users = state.users.set(u.id as number, u));
         return state;
