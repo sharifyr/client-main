@@ -109,5 +109,8 @@ export class ReducerMap {
 }
 
 const reducerMap = Container.get(ReducerMap);
+const loadedMap = reducerMap.GetMap();
+
+
 console.log("reducerMap got: ", reducerMap);
-export const reducers = reducerMap.getMap;
+export const reducers = () => loadedMap;
