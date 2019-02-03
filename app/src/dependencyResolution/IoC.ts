@@ -10,7 +10,9 @@ import { Logger } from "../utils/logger";
 import { Http } from "../utils/http";
 import { IHttp } from "../utils/IHttp";
 
+console.log("IOC imported")
 export const configure = () => {
+  console.log("IOC set up")
   Container.bind(IUserService).to(UserService);
   Container.bind(IUserClient).to(UserClient);
   Container.bind(IUserReducer).to(UserReducer);

@@ -3,8 +3,7 @@ import { Inject, Container } from "typescript-ioc";
 
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
-import * as Store from "../stores/store";
-import {IUserData} from "../stores/store";
+import { IUserData } from "../stores/store";
 import { IUserReducer } from "./UserReducer";
 import { IFormReducer, IForms } from "./FormReducer";
 
