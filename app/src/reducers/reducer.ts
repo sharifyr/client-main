@@ -109,7 +109,7 @@ export class ReducerMap {
 }
 
 const reducerMap = Container.get(ReducerMap);
-const loadedMap = reducerMap.GetMap();
+const loadedMap = reducerMap.getMap();
 
 
 console.log("reducerMap got: ", reducerMap);
