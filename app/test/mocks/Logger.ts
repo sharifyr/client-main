@@ -6,7 +6,7 @@ import { ILogger } from "../../src/utils/ILogger";
 
 export class Logger implements ILogger {
 
-  private logger: bunyan;
+  //private logger: bunyan;
   private outStream: any;
   private projectName = "client-main";
 
