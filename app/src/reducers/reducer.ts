@@ -109,5 +109,5 @@ export class ReducerMap {
 }
 
 const reducerMap = Container.get(ReducerMap);
-
+console.log("reducerMap got: ", reducerMap);
 export const reducers = redux.combineReducers<Store.IAppState>(reducerMap.getMap());

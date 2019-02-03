@@ -1,5 +1,4 @@
 import * as IoC from "./dependencyResolution/IoC";
-IoC.configure();
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -19,7 +18,7 @@ import "./styles/swagger-ui.css";
 import {WebSocketConnectionSingleton} from "./utils/websocket";
 
 
-
+IoC.configure();
 WebSocketConnectionSingleton.Instance.connect();
 
 const App = (
