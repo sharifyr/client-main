@@ -4,8 +4,8 @@ import { IUserSerialized } from "../models/IUserSerialized";
 import { Inject } from "typescript-ioc";
 import { ILogger } from "../utils/ILogger";
 
-export interface IUserReducer {
-    reducer: (state: IUserData, action: UserActions.UserAction) => IUserData;
+export abstract class IUserReducer {
+    public reducer!: (state: IUserData, action: UserActions.UserAction) => IUserData;
 }
 
 const getAuthToken = () => {
