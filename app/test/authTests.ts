@@ -6,12 +6,14 @@ import * as jwt from "jsonwebtoken";
 import * as IoC from "./IoCUnitTest";
 import { IState as SignupState } from "../src/components/signup";
 import * as Store from "../src/stores/store";
-import { Container } from "typescript-ioc";
+import { Container, Inject } from "typescript-ioc";
 import { IUserService } from "../src/services/IUserService";
 
 IoC.configure();
 
 @suite class AuthProviderTests {
+  @Inject
+  private userService!: IUserService;
 
   @test public async canCreateUserAndLogin() {
 
@@ -28,8 +30,8 @@ IoC.configure();
       "passwordMatch": true,
       "contacts": []
     };
-    const userService = Container.get(IUserService);
-    await userService.signup(signupData);
+    
+    await this.userService.signup(signupData);
     const signupState = Store.store.getState();
 
     console.log('signupstate ', signupState);
@@ -38,10 +40,10 @@ IoC.configure();
 
     console.log("jwt data", jwtData);
     
-    await userService.getUser(jwtData.id);
+    await this.userService.getUser(jwtData.id);
     const newUser = [...Store.store.getState().userData.users.values()][0];
 
-    await userService.del(newUser);
+    await this.userService.del(newUser);
     const deletedUser = [...Store.store.getState().userData.users.values()][0];
 
     assert.equal("first", newUser.firstName);
