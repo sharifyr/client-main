@@ -4,6 +4,8 @@ import * as assert from "assert";
 import * as jwt from "jsonwebtoken";
 
 import * as IoC from "./IoCUnitTest";
+IoC.configure();
+
 import { IState as SignupState } from "../src/components/signup";
 import * as Store from "../src/stores/store";
 import { Container, Inject } from "typescript-ioc";
@@ -14,7 +16,7 @@ import { IUserService } from "../src/services/IUserService";
 @suite class AuthProviderTests {
 
   @test public async canCreateUserAndLogin() {
-    IoC.configure();
+
     const signupData: SignupState = {
       "username": "myUser",
       "email": "myUser@example.com",
