@@ -18,6 +18,8 @@ import "./styles/basicTest.scss";
 import "./styles/swagger-ui.css";
 import {WebSocketConnectionSingleton} from "./utils/websocket";
 
+
+
 WebSocketConnectionSingleton.Instance.connect();
 
 const App = (

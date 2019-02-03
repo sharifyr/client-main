@@ -1,5 +1,5 @@
 import * as redux from "redux";
-import { Inject } from "typescript-ioc";
+import { Inject, Container } from "typescript-ioc";
 
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
@@ -108,4 +108,6 @@ export class ReducerMap {
   }
 }
 
-export const reducers = redux.combineReducers<Store.IAppState>(new ReducerMap().getMap());
+const reducerMap = Container.get(ReducerMap);
+
+export const reducers = redux.combineReducers<Store.IAppState>(reducerMap.getMap());

@@ -41,8 +41,8 @@ export const initialFormsState = {
     "signup": initialSignupFormState
 };
 
-export interface IFormReducer {
-    reducer: (state: IForms, action: FormActions.FormActions) => IForms;
+export abstract class IFormReducer {
+    public reducer!: (state: IForms, action: FormActions.FormActions) => IForms;
 }
 export class FormReducer implements IFormReducer {
 
