@@ -111,6 +111,5 @@ export class ReducerMap {
 const reducerMap = Container.get(ReducerMap);
 const loadedMap = reducerMap.getMap();
 
-
-console.log("reducerMap got: ", reducerMap);
+console.log("reducerMap got: ", loadedMap);
 export const reducers = () => loadedMap;
