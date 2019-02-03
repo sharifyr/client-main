@@ -5,6 +5,8 @@ import { UserClient } from "../clients/userClient";
 import { IUserClient } from "../clients/IUserClient";
 import { IUserReducer, UserReducer } from "../reducers/UserReducer";
 import { IFormReducer, FormReducer } from "../reducers/FormReducer";
+import { ILogger } from "../utils/ILogger";
+import { Logger } from "../utils/logger";
 import { Http } from "../utils/http";
 import { IHttp } from "../utils/IHttp";
 
@@ -13,5 +15,6 @@ export const configure = () => {
   Container.bind(IUserClient).to(UserClient);
   Container.bind(IUserReducer).to(UserReducer);
   Container.bind(IFormReducer).to(FormReducer);
+  Container.bind(ILogger).to(Logger);
   Container.bind(IHttp).to(Http);
 };
