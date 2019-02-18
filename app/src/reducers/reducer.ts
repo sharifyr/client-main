@@ -91,7 +91,7 @@ function uiReducer(state: IUIState = initialUIState, action: UIActions.UIActions
   return state;
 }
 export abstract class IReducer {
-  public getMap!: () => redux.Reducer<IAppState>
+  public getRootReducer!: () => redux.Reducer<IAppState>
 }
 
 export class Reducer implements IReducer {
@@ -101,10 +101,11 @@ export class Reducer implements IReducer {
   private formReducer!: IFormReducer;
 
   private static reducer: redux.Reducer<IAppState>;
-  public getMap = () => {
+  
+  public getRootReducer = () => {
 
     if (Reducer.reducer == null) {
-      console.log("get reducer map; first run inits singleton");
+      console.log("get root reducer; first run inits singleton");
       Reducer.reducer = redux.combineReducers({
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
         "userData": this.userReducer.reducer,
@@ -112,7 +113,7 @@ export class Reducer implements IReducer {
         "ui": (uiReducer as redux.Reducer<IUIState>)
       });
     }
-    console.log("get reducer map ", this.userReducer);
+    console.log("get root reducer ", this.userReducer);
     return Reducer.reducer;
   }
 }

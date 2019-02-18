@@ -70,7 +70,7 @@ export class Store implements IStore {
 
       //composeWithDevTools((redux.applyMiddleware(thunk, historyMiddleware))
       Store.store = redux.createStore(
-        this.reducer.getMap,
+        this.reducer.getRootReducer(),
         initialState,
         //composeWithDevTools()
       );
