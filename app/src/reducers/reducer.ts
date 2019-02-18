@@ -104,14 +104,15 @@ export class Reducer implements IReducer {
   public getMap = () => {
 
     if (Reducer.reducer == null) {
+      console.log("get reducer map; first run inits singleton");
       Reducer.reducer = {
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
-        "userData": (this.userReducer.reducer),
+        "userData": this.userReducer.reducer,
         "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
         "ui": (uiReducer as redux.Reducer<IUIState>)
       };
     }
-    console.log("do we have reducers? ", this.userReducer);
+    console.log("get reducer map ", this.userReducer);
     return Reducer.reducer;
   }
 }
