@@ -2,7 +2,7 @@ import * as path from "path";
 
 import { ILogger  } from "../utils/ILogger";
 import { config } from "../config";
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
 import { IHttp } from "./IHttp";
 import { Inject } from "typescript-ioc";
 
@@ -10,13 +10,15 @@ export class Http implements IHttp {
 
   @Inject
   private logger!: ILogger;
+  @Inject
+  private store!: IStore;
 
   public Get = (url: string): Promise<any> => {
 
     const myHeaders = new Headers();
     myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
 
-    const auth = store.getState().userData.auth;
+    const auth = this.store.GetStore().getState().userData.auth;
     if ( auth !== null) {
       myHeaders.append("Authorization", "Bearer " + auth);
     }
@@ -55,7 +57,7 @@ export class Http implements IHttp {
     const myHeaders = new Headers();
     myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
 
-    const auth = store.getState().userData.auth;
+    const auth = this.store.GetStore().getState().userData.auth;
     if ( auth !== null) {
       myHeaders.append("Authorization", "Bearer " + auth);
     }
@@ -98,7 +100,7 @@ export class Http implements IHttp {
     myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
     myHeaders.append("Content-Type", "application/json; charset=utf-8");
 
-    const auth = store.getState().userData.auth;
+    const auth = this.store.GetStore().getState().userData.auth;
     if ( auth !== null) {
       myHeaders.append("Authorization", "Bearer " + auth);
     }
@@ -139,7 +141,7 @@ export class Http implements IHttp {
     myHeaders.append("Access-Control-Allow-Origin", config.authDomain);
     myHeaders.append("Content-Type", "application/json; charset=utf-8");
 
-    const auth = store.getState().userData.auth;
+    const auth = this.store.GetStore().getState().userData.auth;
     if ( auth !== null) {
       myHeaders.append("Authorization", "Bearer " + auth);
     }

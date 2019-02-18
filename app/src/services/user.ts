@@ -1,7 +1,7 @@
 import { Inject } from "typescript-ioc";
 
 import * as UserActions from "../actions/user";
-import * as Store from "../stores/store";
+import { IStore } from "../stores/store";
 import { ILogger } from "../utils/ILogger";
 import { IState as ISignupState } from "../components/signup";
 import { IUserSerialized } from "../models/IUserSerialized";
@@ -15,6 +15,8 @@ export class UserService implements IUserService {
   private userClient!: IUserClient;
   @Inject
   private logger!: ILogger;
+  @Inject
+  private store!: IStore;
 
   public signup = async (state: ISignupState) => {
     try {
@@ -24,7 +26,7 @@ export class UserService implements IUserService {
       console.log("signup response0: ", response);
       console.log("signup response1: ", response.authToken);
       console.log("signup response2: ", response.user);
-      Store.store.dispatch({
+      this.store.GetStore().dispatch({
         "type": UserActions.UserActionTypes.SIGN_UP,
         "authToken": response.authToken,
         "user": response.user
@@ -37,7 +39,7 @@ export class UserService implements IUserService {
 
   public getUser = async (userId: string) => {
     try {
-      Store.store.dispatch({
+      this.store.GetStore().dispatch({
         "type": UserActions.UserActionTypes.GET_USER,
         "user": await this.userClient.getUser(userId)
       });
@@ -48,7 +50,7 @@ export class UserService implements IUserService {
 
   public getUserList = async () => {
     try {
-      Store.store.dispatch({
+      this.store.GetStore().dispatch({
         "type": UserActions.UserActionTypes.GET_USER_LIST,
         "users": await this.userClient.getUserList()
       });
@@ -60,7 +62,7 @@ export class UserService implements IUserService {
   public del = async (state: IUserSerialized) => {
     try {
       await this.userClient.del(state);
-      Store.store.dispatch({
+      this.store.GetStore().dispatch({
         "type": UserActions.UserActionTypes.LOG_OUT
       });
     } catch (err) {
@@ -71,7 +73,7 @@ export class UserService implements IUserService {
   public login = async (state: ILoginFormData) => {
     try {
       const response = await this.userClient.login(state);
-      Store.store.dispatch({
+      this.store.GetStore().dispatch({
         "type": UserActions.UserActionTypes.LOG_IN,
         "authToken": response.authToken,
         "user": response.user
@@ -82,7 +84,7 @@ export class UserService implements IUserService {
   }
 
   public logout() {
-    Store.store.dispatch({
+    this.store.GetStore().dispatch({
       "type": UserActions.UserActionTypes.LOG_OUT
     });
   }

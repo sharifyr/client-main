@@ -4,14 +4,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
 
-import * as Reducers from "../reducers/reducer";
+import { IReducer, ModalTypes, IUIState, initialUIState } from "../reducers/reducer";
 import { IForms, initialFormsState } from "../reducers/FormReducer";
 import { IUserSerialized } from "../models/IUserSerialized";
+import { Inject } from "typescript-ioc";
 
 export interface IAppState {
-  "modal": Reducers.ModalTypes;
+  "modal": ModalTypes;
   "forms": IForms;
-  "ui": Reducers.IUIState;
+  "ui": IUIState;
   "userData": IUserData;
 }
 
@@ -33,7 +34,7 @@ const getAuthToken = () => {
 }
 
 export const initialState: IAppState = {
-  "modal": Reducers.ModalTypes.NONE,
+  "modal": ModalTypes.NONE,
   "userData": {
     "currentUserId": 0,
     "discoveryUsers": [],
@@ -41,14 +42,35 @@ export const initialState: IAppState = {
     "users": new Map<number, IUserSerialized>()
   },
   "forms": initialFormsState,
-  "ui": Reducers.initialUIState
+  "ui": initialUIState
 };
 
 export const history = createBrowserHistory();
 const historyMiddleware = routerMiddleware(history);
 
-export const store: redux.Store<IAppState> = redux.createStore(
-  Reducers.reducers,
-  initialState,
-  composeWithDevTools((redux.applyMiddleware(thunk, historyMiddleware)))
-);
+export abstract class IStore {
+  public GetStore!: () => redux.Store<IAppState>
+}
+
+export class Store implements IStore {
+
+  private static store: any;
+
+  @Inject
+  private reducer!: IReducer;
+
+  public GetStore = () => {
+    
+    if (Store.store == null) {
+      Store.store = redux.createStore(
+        this.reducer.getMap,
+        initialState,
+        composeWithDevTools((redux.applyMiddleware(thunk, historyMiddleware)))
+      );
+    }
+
+    console.log("getstore called", Store.store);
+
+    return Store.store;
+  }
+}

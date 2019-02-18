@@ -1,5 +1,5 @@
 import * as redux from "redux";
-import { Inject, Container } from "typescript-ioc";
+import { Inject } from "typescript-ioc";
 
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
@@ -90,25 +90,34 @@ function uiReducer(state: IUIState = initialUIState, action: UIActions.UIActions
 
   return state;
 }
+export abstract class IReducer {
+  public getMap!: () => any
+}
 
-export class ReducerMap {
+export class Reducer implements IReducer {
   @Inject
   private userReducer!: IUserReducer;
   @Inject
   private formReducer!: IFormReducer;
+
+  private static reducer: any;
   public getMap = () => {
+
+    if (Reducer.reducer == null) {
+      Reducer.reducer = {
+        "modal": (modalReducer as redux.Reducer<ModalTypes>),
+        "userData": (this.userReducer.reducer as redux.Reducer<IUserData>),
+        "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
+        "ui": (uiReducer as redux.Reducer<IUIState>)
+      };
+    }
     console.log("do we have reducers? ", this.userReducer);
-    return {
-      "modal": (modalReducer as redux.Reducer<ModalTypes>),
-      "userData": (this.userReducer.reducer as redux.Reducer<IUserData>),
-      "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
-      "ui": (uiReducer as redux.Reducer<IUIState>)
-    };
+    return Reducer.reducer;
   }
 }
 
-const reducerMap = Container.get(ReducerMap);
-const loadedMap = reducerMap.getMap();
+// const reducerMap = Container.get(Reducer);
+// const loadedMap = reducerMap.getMap();
 
-console.log("reducerMap got: ", loadedMap);
-export const reducers = () => loadedMap;
+// console.log("reducerMap got: ", loadedMap);
+// export const reducers = () => loadedMap;
