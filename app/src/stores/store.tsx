@@ -54,7 +54,7 @@ export abstract class IStore {
 
 export class Store implements IStore {
 
-  private static store: any;
+  private static store: redux.Store<IAppState>;
 
   @Inject
   private reducer!: IReducer;
