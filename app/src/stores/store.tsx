@@ -73,6 +73,7 @@ export class Store implements IStore {
         this.reducer.getRootReducer(),
         initialState,
         //composeWithDevTools()
+        composeWithDevTools(redux.applyMiddleware(thunk, historyMiddleware))
       );
       
     }
