@@ -105,12 +105,12 @@ export class Reducer implements IReducer {
 
     if (Reducer.reducer == null) {
       console.log("get reducer map; first run inits singleton");
-      Reducer.reducer = {
+      Reducer.reducer = redux.combineReducers({
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
         "userData": this.userReducer.reducer,
         "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
         "ui": (uiReducer as redux.Reducer<IUIState>)
-      };
+      });
     }
     console.log("get reducer map ", this.userReducer);
     return Reducer.reducer;

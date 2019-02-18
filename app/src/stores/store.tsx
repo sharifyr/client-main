@@ -66,8 +66,9 @@ export class Store implements IStore {
       Store.store = redux.createStore(
         this.reducer.getMap,
         initialState,
-        composeWithDevTools((redux.applyMiddleware(historyMiddleware)))
+        composeWithDevTools((redux.applyMiddleware(thunk, historyMiddleware)))
       );
+      
     }
 
     console.log("getstore called", Store.store);
