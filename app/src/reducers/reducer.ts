@@ -3,7 +3,7 @@ import { Inject } from "typescript-ioc";
 
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
-import { IUserData } from "../stores/store";
+import { IAppState } from "../stores/store";
 import { IUserReducer } from "./UserReducer";
 import { IFormReducer, IForms } from "./FormReducer";
 
@@ -91,7 +91,7 @@ function uiReducer(state: IUIState = initialUIState, action: UIActions.UIActions
   return state;
 }
 export abstract class IReducer {
-  public getMap!: () => any
+  public getMap!: () => redux.Reducer<IAppState>
 }
 
 export class Reducer implements IReducer {
@@ -100,7 +100,7 @@ export class Reducer implements IReducer {
   @Inject
   private formReducer!: IFormReducer;
 
-  private static reducer: any;
+  private static reducer: redux.Reducer<IAppState>;
   public getMap = () => {
 
     if (Reducer.reducer == null) {
