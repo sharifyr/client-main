@@ -62,6 +62,7 @@ export class Store implements IStore {
   public GetStore = () => {
     
     if (Store.store == null) {
+      console.log("getstore called; first run inits singleton")
       Store.store = redux.createStore(
         this.reducer.getMap,
         initialState,

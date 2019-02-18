@@ -1,11 +1,13 @@
+import { Inject } from "typescript-ioc";
+import * as redux from "redux";
+
 import {IUserData} from "../stores/store";
 import * as UserActions from "../actions/user";
 import { IUserSerialized } from "../models/IUserSerialized";
-import { Inject } from "typescript-ioc";
 import { ILogger } from "../utils/ILogger";
 
 export abstract class IUserReducer {
-    public reducer!: (state: IUserData, action: UserActions.UserAction) => IUserData;
+    public reducer!: redux.Reducer<IUserData>;
 }
 
 const getAuthToken = () => {

@@ -106,7 +106,7 @@ export class Reducer implements IReducer {
     if (Reducer.reducer == null) {
       Reducer.reducer = {
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
-        "userData": (this.userReducer.reducer as redux.Reducer<IUserData>),
+        "userData": (this.userReducer.reducer),
         "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
         "ui": (uiReducer as redux.Reducer<IUIState>)
       };
