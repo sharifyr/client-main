@@ -28,12 +28,12 @@ export class UserService implements IUserService {
       console.log("signup response2: ", response.user);
       var store = this.store.GetStore();
       console.log("store: ", store);
-      store.dispatch({
+      var dispatchResult = store.dispatch({
         "type": UserActions.UserActionTypes.SIGN_UP,
         "authToken": response.authToken,
         "user": response.user
       });
-      console.log('signup dispatched');
+      console.log('signup dispatched', dispatchResult);
     } catch (err) {
       this.logger.error("Error getting data: ", err);
     }
