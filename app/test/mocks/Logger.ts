@@ -8,18 +8,18 @@ import { ILogger } from "../../src/utils/ILogger";
 export class Logger implements ILogger {
 
   public info = (...args: any[]) => {
-    console.log("INFO:",util.inspect(args));
+    console.log("INFO:",util.inspect([args], false, null, true));
   }
 
   public warn = (...args: any[]) => {
-    console.log("WARN:", util.inspect(args));
+    console.log("WARN:", util.inspect([args], false, null, true));
   }
 
   public debug = (...args: any[]) => {
-    console.log("DEBUG:",util.inspect(args));
+    console.log("DEBUG:",util.inspect([args], false, null, true));
   }
 
   public error = (...args: any[]) => {
-    console.log("ERROR:",util.inspect(args));
+    console.log("ERROR:",util.inspect([args], false, null, true));
   }
 }
