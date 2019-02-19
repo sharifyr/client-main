@@ -78,8 +78,6 @@ export class Store implements IStore {
       
     }
 
-    console.log("getstore called", Store.store);
-
     return Store.store;
   }
 }

@@ -101,7 +101,7 @@ export class Reducer implements IReducer {
   private formReducer!: IFormReducer;
 
   private static reducer: redux.Reducer<IAppState>;
-  
+
   public getRootReducer = () => {
 
     if (Reducer.reducer == null) {
@@ -113,7 +113,6 @@ export class Reducer implements IReducer {
         "ui": (uiReducer as redux.Reducer<IUIState>)
       });
     }
-    console.log("get root reducer ", this.userReducer);
     return Reducer.reducer;
   }
 }

@@ -34,14 +34,10 @@ import { IUserService } from "../src/services/IUserService";
     };
     const userService = Container.get(IUserService);
     await userService.signup(signupData);
-    console.log("getting store.")
+
     const signupState = this.store.GetStore().getState();
-    console.log('signupstate ', typeof(signupState));
-    console.log('signupstate ', signupState);
 
     const jwtData = jwt.decode(signupState.userData.auth) as any;
-
-    console.log("jwt data", jwtData);
     
     await userService.getUser(jwtData.id);
     const newUser = [...this.store.GetStore().getState().userData.users.values()][0];

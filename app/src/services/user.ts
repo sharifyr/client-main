@@ -23,17 +23,14 @@ export class UserService implements IUserService {
       this.logger.info("signup service");
       const response = await this.userClient.signup(state);
 
-      console.log("signup response0: ", response);
-      console.log("signup response1: ", response.authToken);
-      console.log("signup response2: ", response.user);
       var store = this.store.GetStore();
-      console.log("store: ", store);
+
       var dispatchResult = store.dispatch({
         "type": UserActions.UserActionTypes.SIGN_UP,
         "authToken": response.authToken,
         "user": response.user
       });
-      console.log('signup dispatched', dispatchResult);
+
     } catch (err) {
       this.logger.error("Error getting data: ", err);
     }
