@@ -12,9 +12,7 @@ import { Http } from "../src/utils/http";
 import { ILogger } from "../src/utils/ILogger";
 import { Logger } from "./mocks/Logger";
 
-console.log("test IOC imported")
 export const configure = () => {
-  console.log("test IOC set up")
   Container.bind(IUserService).to(UserService);
   Container.bind(IUserClient).to(UserClient);
   Container.bind(IUserReducer).to(UserReducer);

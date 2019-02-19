@@ -3,11 +3,13 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
+import { Inject } from "typescript-ioc";
 
 import { IReducer, ModalTypes, IUIState, initialUIState } from "../reducers/reducer";
 import { IForms, initialFormsState } from "../reducers/FormReducer";
 import { IUserSerialized } from "../models/IUserSerialized";
-import { Inject } from "typescript-ioc";
+import { ILogger } from "../utils/ILogger";
+import { Logger } from "client-main/app/test/mocks/Logger";
 
 export interface IAppState {
   "modal": ModalTypes;
@@ -59,10 +61,13 @@ export class Store implements IStore {
   @Inject
   private reducer!: IReducer;
 
+  @Inject
+  private logger!: ILogger;
+
   public GetStore = () => {
     
     if (Store.store == null) {
-      console.log("getstore called; first run inits singleton");
+      this.logger.debug("getstore called; first run inits singleton");
       Store.store = redux.createStore(
         this.reducer.getRootReducer(),
         initialState,
