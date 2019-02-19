@@ -1,13 +1,22 @@
 import * as redux from "redux";
 
 import * as UIActions from "../actions/ui";
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
+import { Inject } from "typescript-ioc";
 
-export const toggleMenu = () => {
-  return (dispatch: redux.Dispatch<null>) => {
-    dispatch({
+export abstract class IUiService {
+  toggleMenu!: () => void;
+}
+
+export class UiService {
+
+  @Inject
+  private store!: IStore;
+
+  public toggleMenu = () => {
+    this.store.GetStore().dispatch({
       "type": UIActions.UIActionTypes.TOGGLE_MENU,
-      "open": !store.getState().ui.preferencesDropdownToggle
+      "open": !this.store.GetStore().getState().ui.preferencesDropdownToggle
     });
   };
-};
+}

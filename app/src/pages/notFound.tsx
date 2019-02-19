@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Logger } from "../utils/logger";
-import LeftPanel from "../components/leftPanel";
+import { LeftPanel } from "../components/leftPanel";
 import NotFound from "../components/notFound";
 
 const logger = new Logger();

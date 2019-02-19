@@ -1,14 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as path from "path";
 
-import { Logger } from "../utils/logger";
 import { IAppState } from "../stores/store";
 import { IUserSerialized } from "../models/IUserSerialized";
 import * as ContactService from "../services/contacts";
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
+import { Inject } from "typescript-ioc";
 
-const logger = new Logger();
 interface IStateProps extends IOwnProps  {
   "user": IUserSerialized;
 }
@@ -24,19 +22,27 @@ const mapStateToProps = (state: IAppState, props: IOwnProps): IStateProps => {
   };
 };
 
-const addUser = (userId: number) => {
-  ContactService.createRequest(userId)(store.dispatch);
-};
+class UserCard extends React.Component<IStateProps> {
 
-const Component: React.SFC<IStateProps> = (props: IStateProps) => {
-  return (
-    <div className={"contactCard"}>
-      <div className={"width20 floatRight fa-plus contactCardPlus"} onClick={() => addUser(props.userId)}></div>
-      <div className={"title width75 floatLeft"}>{props.user.username}</div>
-      <div className={"subtitle width75 floatLeft"}>
-        {props.user.firstName + " " + props.user.lastName}
+  @Inject
+  private store!:IStore;
+
+  private addUser = (userId: number) => {
+    ContactService.createRequest(userId)(this.store.GetStore().dispatch);
+  };
+
+  public render() {
+    return (
+      <div className={"contactCard"}>
+        <div className={"width20 floatRight fa-plus contactCardPlus"} onClick={() => this.addUser(this.props.userId)}></div>
+        <div className={"title width75 floatLeft"}>{this.props.user.username}</div>
+        <div className={"subtitle width75 floatLeft"}>
+          {this.props.user.firstName + " " + this.props.user.lastName}
+        </div>
       </div>
-    </div>
-  );
-};
-export default connect(mapStateToProps)(Component);
+    );
+  }
+}
+
+var userCard = connect(mapStateToProps)(UserCard)
+export {userCard as UserCard};

@@ -6,11 +6,11 @@ import Button from "../components/button";
 import { Logger } from "../utils/logger";
 import { IUserService } from "../services/IUserService";
 import * as ModalService from "../services/modal";
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
 import Modal from "../components/modal";
 import Login from "../components/login";
 import Signup from "../components/signup";
-import Dropdown from "../components/dropdown";
+import { Dropdown } from "../components/dropdown";
 
 const logger = new Logger();
 
@@ -24,8 +24,11 @@ class Navbar extends React.Component<INavBarProps, {}> {
   @Inject
   private userService!: IUserService;
 
+  @Inject
+  private store!: IStore;
+
   private signupClick = () => {
-    ModalService.openSignupModal()(store.dispatch);
+    ModalService.openSignupModal()(this.store.GetStore().dispatch);
   }
 
   private logoutClick = () => {
@@ -34,11 +37,11 @@ class Navbar extends React.Component<INavBarProps, {}> {
 
   private loginClick = () => {
     logger.info("login Click");
-    ModalService.openLoginModal()(store.dispatch);
+    ModalService.openLoginModal()(this.store.GetStore().dispatch);
   }
 
   private exitClick = () => {
-    ModalService.closeModal()(store.dispatch);
+    ModalService.closeModal()(this.store.GetStore().dispatch);
   }
 
   public render = () => {
@@ -67,10 +70,10 @@ class Navbar extends React.Component<INavBarProps, {}> {
     return (
       <div>
         <Modal isOpen={this.props.loginModal} onExitClick={this.exitClick}>
-          <Login {...store.getState().forms.login}/>
+          <Login {...this.store.GetStore().getState().forms.login}/>
         </Modal>
         <Modal isOpen={this.props.signupModal} onExitClick={this.exitClick}>
-          <Signup {...store.getState().forms.signup}/>
+          <Signup {...this.store.GetStore().getState().forms.signup}/>
         </Modal>
         <div>
           <div>

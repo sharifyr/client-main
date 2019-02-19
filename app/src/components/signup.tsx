@@ -4,11 +4,11 @@ import * as jwt from "jsonwebtoken";
 import { connect } from "react-redux";
 import * as path from "path";
 
-import { IAppState, store } from "../stores/store";
+import { IAppState, IStore } from "../stores/store";
 import { ISignupFormData } from "../reducers/FormReducer";
 import SignupField from "../components/signupField";
 import { IUserService } from "../services/IUserService";
-import * as FormService from "../services/forms";
+import { FormService, IFormService } from "../services/forms";
 import { Logger } from "../utils/logger";
 import { IState as ISignupState } from "../components/signup";
 
@@ -32,6 +32,12 @@ class Signup extends React.Component<ISignupFormData, {}> {
   @Inject
   private userService!: IUserService;
 
+  @Inject
+  private store!: IStore;
+
+  @Inject
+  private formService!: IFormService;
+
   public static mapStateToProps = (state: IAppState, props: ISignupFormData): ISignupFormData => {
     logger.info({"obj": state}, "signup mapping state to props");
     return state.forms.signup;
@@ -42,27 +48,27 @@ class Signup extends React.Component<ISignupFormData, {}> {
   }
 
   private usernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditUsername(event.target.value);
+    this.formService.signupEditUsername(event.target.value);
   }
 
   private firstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditFirstName(event.target.value);
+    this.formService.signupEditFirstName(event.target.value);
   }
 
   private lastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditLastName(event.target.value);
+    this.formService.signupEditLastName(event.target.value);
   }
 
   private emailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditEmail(event.target.value);
+    this.formService.signupEditEmail(event.target.value);
   }
 
   private passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditPassword(event.target.value);
+    this.formService.signupEditPassword(event.target.value);
   }
 
   private altPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.signupEditAltPassword(event.target.value);
+    this.formService.signupEditAltPassword(event.target.value);
   }
 
   private submit = async (formData: ISignupFormData) => {
@@ -72,7 +78,7 @@ class Signup extends React.Component<ISignupFormData, {}> {
       && formData.validPassword
       && formData.passwordMatch) {
       await this.userService.signup({...formData, ...{"contacts": []}});
-      const state = store.getState();
+      const state = this.store.GetStore().getState();
       const jwtData = (jwt.decode(state.userData.auth)as any);
       const userId = jwtData.id;
       await this.userService.getUser(userId as string);

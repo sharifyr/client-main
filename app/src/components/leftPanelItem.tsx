@@ -2,22 +2,30 @@ import * as React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
+import { Inject } from "typescript-ioc";
 
 interface IStateProps {
   "name": string;
 }
 
-const clickComponent = async (name: string) => {
-  await store.dispatch(push(name));
-};
+export class LeftPanelItem extends React.Component<IStateProps> {
 
-const Component = (props: IStateProps) => {
-  return (
-    <div className="relative">
-      <button className="accordion" onClick={() => clickComponent(props.name)}>{props.name}</button>
-    </div>
-  );
-};
+  @Inject
+  private store!: IStore;
 
-export default Component;
+  private clickComponent = async (name: string) => {
+    await this.store.GetStore().dispatch(push(name));
+  };
+  public render() {
+    return (
+      <div className="relative">
+        <button className="accordion" onClick={() => this.clickComponent(this.props.name)}>
+          {this.props.name}
+        </button>
+      </div>
+    );
+  }
+}
+
+

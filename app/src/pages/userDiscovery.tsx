@@ -1,7 +1,6 @@
 import * as React from "react";
-import * as path from "path";
 
-import LeftPanel from "../components/leftPanel";
+import { LeftPanel } from "../components/leftPanel";
 import UserDiscovery from "../components/userDiscovery";
 
 const Component = () => {

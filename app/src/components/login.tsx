@@ -5,9 +5,9 @@ import { push } from "react-router-redux";
 
 import { IUserService } from "../services/IUserService";
 import { Logger } from "../utils/logger";
-import { store } from "../stores/store";
+import { IStore } from "../stores/store";
 import { ILoginFormData } from "../models/ILoginFormData";
-import * as FormService from "../services/forms";
+import { FormService, IFormService } from "../services/forms";
 import * as ModalService from "../services/modal";
 
 const logger = new Logger();
@@ -17,20 +17,26 @@ class Login extends React.Component<ILoginFormData, {}> {
   @Inject
   private userService!: IUserService;
 
+  @Inject
+  private formService!: IFormService;
+
+  @Inject
+  private store!: IStore;
+
   private usernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.loginEditUsername(event.target.value);
+    this.formService.loginEditUsername(event.target.value);
   }
 
   private passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    FormService.loginEditPassword(event.target.value);
+    this.formService.loginEditPassword(event.target.value);
   }
 
   public submit = async (formData: ILoginFormData) => {
     await this.userService.login(formData);
-    const state = store.getState();
+    const state = this.store.GetStore().getState();
     if (state.userData.auth !== "") {
-      await ModalService.closeModal()(store.dispatch);
-      await store.dispatch(push("/Api"));
+      await ModalService.closeModal()(this.store.GetStore().dispatch);
+      await this.store.GetStore().dispatch(push("/Api"));
     } else {
       logger.info("Login failed!");
     }

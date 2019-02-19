@@ -9,11 +9,13 @@ import { ILogger } from "../utils/ILogger";
 import { Logger } from "../utils/logger";
 import { Http } from "../utils/http";
 import { IHttp } from "../utils/IHttp";
+import { FormService, IFormService } from "../services/forms";
+import { IUiService, UiService } from "../services/ui";
 
-console.log("IOC imported")
 export const configure = () => {
-  console.log("IOC set up")
   Container.bind(IUserService).to(UserService);
+  Container.bind(IFormService).to(FormService);
+  Container.bind(IUiService).to(UiService);
   Container.bind(IUserClient).to(UserClient);
   Container.bind(IUserReducer).to(UserReducer);
   Container.bind(IFormReducer).to(FormReducer);

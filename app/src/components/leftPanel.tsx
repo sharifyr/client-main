@@ -3,9 +3,9 @@ import * as path from "path";
 import { connect } from "react-redux";
 
 import NavBar from "../components/navbar";
-import { IAppState, store } from "../stores/store";
+import { IAppState, IStore } from "../stores/store";
 import { ModalTypes, ILeftPanelWidget } from "../reducers/reducer";
-import LeftPanelItem from "./leftPanelItem";
+import { LeftPanelItem } from "./leftPanelItem";
 
 interface IStateProps {
   "loginModal": boolean;
@@ -25,17 +25,22 @@ const mapStateToProps = (state: IAppState, props: {}): IStateProps => {
   };
 };
 
-const Component = (props: IStateProps) => {
-  return (
-    <div className={"leftPanel"}>
-        <div className={"placeholderText"}>
-          <NavBar {...props}/>
-          <div className="accordionContainer">
-            {props.widgets.map((w) => <LeftPanelItem name={w.name}/>)}
-          </div>
-        </div>
-    </div>
-  );
-};
+class LeftPanel extends React.Component<IStateProps> {
 
-export default connect(mapStateToProps)(Component);
+  public render() {
+    return (
+      <div className={"leftPanel"}>
+          <div className={"placeholderText"}>
+            <NavBar {...this.props}/>
+            <div className="accordionContainer">
+              {this.props.widgets.map((w) => <LeftPanelItem name={w.name}/>)}
+            </div>
+          </div>
+      </div>
+    );
+  }
+}
+
+var leftPanel = connect(mapStateToProps)(LeftPanel)
+export {leftPanel as LeftPanel};
+
