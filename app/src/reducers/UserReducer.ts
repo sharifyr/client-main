@@ -31,10 +31,6 @@ export class UserReducer implements IUserReducer {
     @Inject
     private logger!: ILogger;
 
-    public constructor () {
-        console.log("userReducer constructor called");
-    }
-
     private addUsers = (state: IUserData, users: IUserSerialized[]) => {
         users.forEach((u) => state.users = state.users.set(u.id as number, u));
         return state;
@@ -58,7 +54,6 @@ export class UserReducer implements IUserReducer {
     }
 
     public reducer = (state: IUserData = initialUserDataState, action: UserActions.UserAction) => {
-        console.log('user reducer dispatched ', state, action);
         this.logger.info({"obj": {"action": action, "state": state}}, "reducer hit:");
         let updatedState: IUserData;
         switch (action.type) {
