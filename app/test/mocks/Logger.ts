@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import * as bunyan from "bunyan";
 import * as util from "util";
 const bunyanLumberjack = require("bunyan-lumberjack");
 
@@ -8,18 +6,18 @@ import { ILogger } from "../../src/utils/ILogger";
 export class Logger implements ILogger {
 
   public info = (...args: any[]) => {
-    console.log("INFO:",util.inspect([args], false, null, true));
+    console.log("INFO:",util.inspect([args.reverse()], false, null, true));
   }
 
   public warn = (...args: any[]) => {
-    console.log("WARN:", util.inspect([args], false, null, true));
+    console.log("WARN:", util.inspect([args.reverse()], false, null, true));
   }
 
   public debug = (...args: any[]) => {
-    console.log("DEBUG:",util.inspect([args], false, null, true));
+    console.log("DEBUG:",util.inspect([args.reverse()], false, null, true));
   }
 
   public error = (...args: any[]) => {
-    console.log("ERROR:",util.inspect([args], false, null, true));
+    console.log("ERROR:",util.inspect([args.reverse()], false, null, true));
   }
 }

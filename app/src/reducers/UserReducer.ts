@@ -62,7 +62,7 @@ export class UserReducer implements IUserReducer {
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer SIGN_UP/LOG_IN");
                 const authToken = (action as UserActions.ISignupAction).authToken;
                 const user = (action as UserActions.ISignupAction).user;
-                console.log("trying window.sessionstorage")
+                this.logger.info("trying window.sessionstorage")
                 try {// tests throw an exception when window.sessionStorage accessed
                     if (window.sessionStorage) {// mocha tests run without session storage
                         window.sessionStorage.accessToken = authToken;
@@ -84,7 +84,7 @@ export class UserReducer implements IUserReducer {
 
                 return this.login(state, 0, ""); // set values to default
             case UserActions.UserActionTypes.GET_USER:
-                console.log("get_user reducer")
+                this.logger.info("get_user reducer")
                 this.logger.info({"obj": {"action": action, "state": state}}, "reducer GET_USER");
                 return this.addUsers(state, [action.user]);
             case UserActions.UserActionTypes.GET_USER_LIST:

@@ -6,6 +6,7 @@ import * as UIActions from "../actions/ui";
 import { IAppState } from "../stores/store";
 import { IUserReducer } from "./UserReducer";
 import { IFormReducer, IForms } from "./FormReducer";
+import { ILogger } from "../utils/ILogger";
 
 export interface IUIState {
   "preferencesDropdownToggle": boolean;
@@ -92,13 +93,15 @@ export class Reducer implements IReducer {
   private userReducer!: IUserReducer;
   @Inject
   private formReducer!: IFormReducer;
+  @Inject
+  private logger!: ILogger;
 
   private static reducer: redux.Reducer<IAppState>;
 
   public getRootReducer = () => {
 
     if (Reducer.reducer == null) {
-      console.log("get root reducer; first run inits singleton");
+      this.logger.debug("get root reducer; first run inits singleton");
       Reducer.reducer = redux.combineReducers({
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
         "userData": this.userReducer.reducer,
