@@ -49,7 +49,7 @@ import { IUserService } from "../src/services/IUserService";
     await userService.del(newUser);
     const deletedUser = [...this.store.GetStore().getState().userData.users.values()][0];
 
-    assert.equal("first", newUser.firstName);
+    assert.equal("FirstName", newUser.firstName);
     assert.notEqual(0, newUser.id);
 
     // dispatch action. maybe rename access_token?
