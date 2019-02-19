@@ -39,7 +39,7 @@ import { IUserService } from "../src/services/IUserService";
     console.log('signupstate ', typeof(signupState));
     console.log('signupstate ', signupState);
 
-    const jwtData = jwt.decode(this.store.GetStore().getState().userData.auth) as any;
+    const jwtData = jwt.decode(signupState.userData.auth) as any;
 
     console.log("jwt data", jwtData);
     
