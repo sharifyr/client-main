@@ -9,7 +9,6 @@ import { IReducer, ModalTypes, IUIState, initialUIState } from "../reducers/redu
 import { IForms, initialFormsState } from "../reducers/FormReducer";
 import { IUserSerialized } from "../models/IUserSerialized";
 import { ILogger } from "../utils/ILogger";
-import { Logger } from "client-main/app/test/mocks/Logger";
 
 export interface IAppState {
   "modal": ModalTypes;
