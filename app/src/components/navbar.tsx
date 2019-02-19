@@ -5,7 +5,7 @@ import {Inject} from "typescript-ioc";
 import Button from "../components/button";
 import { Logger } from "../utils/logger";
 import { IUserService } from "../services/IUserService";
-import * as ModalService from "../services/modal";
+import { ModalService, IModalService } from "../services/modal";
 import { IStore } from "../stores/store";
 import Modal from "../components/modal";
 import Login from "../components/login";
@@ -27,8 +27,11 @@ class Navbar extends React.Component<INavBarProps, {}> {
   @Inject
   private store!: IStore;
 
+  @Inject
+  private modalService!: IModalService;
+
   private signupClick = () => {
-    ModalService.openSignupModal()(this.store.GetStore().dispatch);
+    this.modalService.openSignupModal();
   }
 
   private logoutClick = () => {
@@ -37,11 +40,11 @@ class Navbar extends React.Component<INavBarProps, {}> {
 
   private loginClick = () => {
     logger.info("login Click");
-    ModalService.openLoginModal()(this.store.GetStore().dispatch);
+    this.modalService.openLoginModal();
   }
 
   private exitClick = () => {
-    ModalService.closeModal()(this.store.GetStore().dispatch);
+    this.modalService.closeModal();
   }
 
   public render = () => {

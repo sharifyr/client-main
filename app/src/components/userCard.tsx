@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { IAppState } from "../stores/store";
 import { IUserSerialized } from "../models/IUserSerialized";
-import * as ContactService from "../services/contacts";
+import { IContactService } from "../services/contacts";
 import { IStore } from "../stores/store";
 import { Inject } from "typescript-ioc";
 
@@ -27,8 +27,11 @@ class UserCard extends React.Component<IStateProps> {
   @Inject
   private store!:IStore;
 
+  @Inject
+  private contactService!: IContactService;
+
   private addUser = (userId: number) => {
-    ContactService.createRequest(userId)(this.store.GetStore().dispatch);
+    this.contactService.createRequest(userId);
   };
 
   public render() {

@@ -11,11 +11,15 @@ import { Http } from "../utils/http";
 import { IHttp } from "../utils/IHttp";
 import { FormService, IFormService } from "../services/forms";
 import { IUiService, UiService } from "../services/ui";
+import { IModalService, ModalService } from "../services/modal";
+import { IContactService, ContactService } from "../services/contacts";
 
 export const configure = () => {
   Container.bind(IUserService).to(UserService);
   Container.bind(IFormService).to(FormService);
   Container.bind(IUiService).to(UiService);
+  Container.bind(IContactService).to(ContactService);
+  Container.bind(IModalService).to(ModalService);
   Container.bind(IUserClient).to(UserClient);
   Container.bind(IUserReducer).to(UserReducer);
   Container.bind(IFormReducer).to(FormReducer);

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import * as ContactService from "../services/contacts";
+import { ContactService, IContactService } from "../services/contacts";
 import { Inject } from "typescript-ioc";
 import { IStore } from "../stores/store";
 
@@ -9,8 +9,11 @@ class UserDiscovery extends React.Component {
   @Inject
   private store!: IStore;
 
+  @Inject
+  private contactService!: IContactService;
+
   public componentDidMount() {
-    ContactService.getContacts()(this.store.GetStore().dispatch);
+    this.contactService.getContacts();
   }
 
   public render() {

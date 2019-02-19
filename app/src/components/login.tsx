@@ -8,7 +8,7 @@ import { Logger } from "../utils/logger";
 import { IStore } from "../stores/store";
 import { ILoginFormData } from "../models/ILoginFormData";
 import { FormService, IFormService } from "../services/forms";
-import * as ModalService from "../services/modal";
+import { IModalService, ModalService } from "../services/modal";
 
 const logger = new Logger();
 
@@ -23,6 +23,9 @@ class Login extends React.Component<ILoginFormData, {}> {
   @Inject
   private store!: IStore;
 
+  @Inject
+  private modalService!: IModalService;
+
   private usernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.formService.loginEditUsername(event.target.value);
   }
@@ -35,7 +38,7 @@ class Login extends React.Component<ILoginFormData, {}> {
     await this.userService.login(formData);
     const state = this.store.GetStore().getState();
     if (state.userData.auth !== "") {
-      await ModalService.closeModal()(this.store.GetStore().dispatch);
+      await this.modalService.closeModal();
       await this.store.GetStore().dispatch(push("/Api"));
     } else {
       logger.info("Login failed!");
