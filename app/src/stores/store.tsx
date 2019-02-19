@@ -63,16 +63,9 @@ export class Store implements IStore {
     
     if (Store.store == null) {
       console.log("getstore called; first run inits singleton");
-
-      //this.reducer.getMap,
-      //initialState,
-      
-
-      //composeWithDevTools((redux.applyMiddleware(thunk, historyMiddleware))
       Store.store = redux.createStore(
         this.reducer.getRootReducer(),
         initialState,
-        //composeWithDevTools()
         composeWithDevTools(redux.applyMiddleware(thunk, historyMiddleware))
       );
       

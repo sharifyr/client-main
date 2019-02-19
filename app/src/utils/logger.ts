@@ -7,32 +7,32 @@ export class Logger implements ILogger {
   private logger: any;
 
   constructor() {
-    // this.logger = bunyan.createLogger({
-    //   "name": "<missing filename>",
-    //   "streams": [
-    //     {
-    //       "level": "info",
-    //       "stream": new bunyan.ConsoleFormattedStream()
-    //     }
-    //   ],
-    //   "serializers": bunyan.stdSerializers,
-    //   "src": true
-    // });
+    this.logger = bunyan.createLogger({
+      "name": "<missing filename>",
+      "streams": [
+        {
+          "level": "info",
+          "stream": new bunyan.ConsoleFormattedStream()
+        }
+      ],
+      "serializers": bunyan.stdSerializers,
+      "src": true
+    });
   }
 
   public info = (...args: any[]) => {
-    //this.logger.info(args);
+    this.logger.info(args);
   }
 
   public warn = (...args: any[]) => {
-    //this.logger.warn(args);
+    this.logger.warn(args);
   }
 
   public debug = (...args: any[]) => {
-    //this.logger.debug(args);
+    this.logger.debug(args);
   }
 
   public error = (...args: any[]) => {
-    //this.logger.error(args);
+    this.logger.error(args);
   }
 }

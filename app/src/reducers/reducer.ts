@@ -59,13 +59,6 @@ export enum ModalTypes {
   NONE = "MODAL_NONE"
 }
 
-// export const initialUserState: IUser = {
-//   "id": 0,
-//   "firstName": "",
-//   "lastName": "",
-//   "avatar": ""
-// };
-
 function modalReducer(state: ModalTypes = ModalTypes.NONE, action: ModalActions.ModalActions): ModalTypes {
   switch (action.type) {
     case ModalActions.ModalActionTypes.LOGIN_MODAL:
@@ -116,9 +109,3 @@ export class Reducer implements IReducer {
     return Reducer.reducer;
   }
 }
-
-// const reducerMap = Container.get(Reducer);
-// const loadedMap = reducerMap.getMap();
-
-// console.log("reducerMap got: ", loadedMap);
-// export const reducers = () => loadedMap;
