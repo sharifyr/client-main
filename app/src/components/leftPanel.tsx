@@ -1,9 +1,8 @@
 import * as React from "react";
-import * as path from "path";
 import { connect } from "react-redux";
 
-import NavBar from "../components/navbar";
-import { IAppState, IStore } from "../stores/store";
+import { NavBar } from "../components/navbar";
+import { IAppState } from "../stores/store";
 import { ModalTypes, ILeftPanelWidget } from "../reducers/reducer";
 import { LeftPanelItem } from "./leftPanelItem";
 

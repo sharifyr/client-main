@@ -2,11 +2,11 @@ import * as IoC from "./dependencyResolution/IoC";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Route, Switch } from "react-router-dom";
-import { ConnectedRouter } from "react-router-redux";
+import { Route, Router, Switch } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
 import { Container } from "typescript-ioc";
 
-import {history, IStore } from "./stores/store";
+import { history, IStore } from "./stores/store";
 import LandingPage from "./pages/landing";
 import NotFoundPage from "./pages/notFound";
 import PrivateRoute from "./components/privateRoute";
@@ -21,11 +21,11 @@ import {WebSocketConnectionSingleton} from "./utils/websocket";
 IoC.configure();
 WebSocketConnectionSingleton.Instance.connect();
 
-const store = Container.get(IStore);
+const store: IStore = Container.get(IStore);
 
 const App = (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
+  <Provider store={store.GetStore()}>
+    <ConnectedRouter history={store.GetHistory()}>
       <Switch>
         <Route exact path="/" component={LandingPage as any}/>
         <PrivateRoute exact path="/Swagger" component={Api} />

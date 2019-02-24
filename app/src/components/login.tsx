@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Inject} from "typescript-ioc";
 import * as path from "path";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 import { IUserService } from "../services/IUserService";
 import { Logger } from "../utils/logger";

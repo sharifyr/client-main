@@ -19,7 +19,7 @@ interface INavBarProps {
   "signupModal": boolean;
   "loggedIn": boolean;
 }
-class Navbar extends React.Component<INavBarProps, {}> {
+export class NavBar extends React.Component<INavBarProps, {}> {
 
   @Inject
   private userService!: IUserService;
@@ -87,5 +87,3 @@ class Navbar extends React.Component<INavBarProps, {}> {
     );
   }
 }
-
-export default Navbar;

@@ -1,5 +1,7 @@
 import * as redux from "redux";
 import { Inject } from "typescript-ioc";
+import { connectRouter } from "connected-react-router";
+import { History } from "history";
 
 import * as ModalActions from "../actions/modal";
 import * as UIActions from "../actions/ui";
@@ -85,7 +87,7 @@ function uiReducer(state: IUIState = initialUIState, action: UIActions.UIActions
   return state;
 }
 export abstract class IReducer {
-  public getRootReducer!: () => redux.Reducer<IAppState>
+  public getRootReducer!: (history: History<any>) => redux.Reducer<IAppState>
 }
 
 export class Reducer implements IReducer {
@@ -98,7 +100,7 @@ export class Reducer implements IReducer {
 
   private static reducer: redux.Reducer<IAppState>;
 
-  public getRootReducer = () => {
+  public getRootReducer = (history: History<any>) => {
 
     if (Reducer.reducer == null) {
       this.logger.debug("get root reducer; first run inits singleton");
@@ -106,7 +108,8 @@ export class Reducer implements IReducer {
         "modal": (modalReducer as redux.Reducer<ModalTypes>),
         "userData": this.userReducer.reducer,
         "forms": (this.formReducer.reducer as redux.Reducer<IForms>),
-        "ui": (uiReducer as redux.Reducer<IUIState>)
+        "ui": (uiReducer as redux.Reducer<IUIState>),
+        "router": connectRouter(history)
       });
     }
     return Reducer.reducer;

@@ -9,6 +9,8 @@ import { ILogger } from "../utils/ILogger";
 import { Logger } from "../utils/logger";
 import { Http } from "../utils/http";
 import { IHttp } from "../utils/IHttp";
+import { IReducer, Reducer } from "../reducers/reducer";
+import { IStore, Store } from "../stores/store";
 import { FormService, IFormService } from "../services/forms";
 import { IUiService, UiService } from "../services/ui";
 import { IModalService, ModalService } from "../services/modal";
@@ -17,6 +19,7 @@ import { IContactService, ContactService } from "../services/contacts";
 export const configure = () => {
   Container.bind(IUserService).to(UserService);
   Container.bind(IFormService).to(FormService);
+  Container.bind(IStore).to(Store);
   Container.bind(IUiService).to(UiService);
   Container.bind(IContactService).to(ContactService);
   Container.bind(IModalService).to(ModalService);
@@ -24,5 +27,6 @@ export const configure = () => {
   Container.bind(IUserReducer).to(UserReducer);
   Container.bind(IFormReducer).to(FormReducer);
   Container.bind(ILogger).to(Logger);
+  Container.bind(IReducer).to(Reducer);
   Container.bind(IHttp).to(Http);
 };

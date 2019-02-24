@@ -1,5 +1,5 @@
 import * as React from "react";
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
 import { IStore } from "../stores/store";
@@ -15,6 +15,7 @@ export class LeftPanelItem extends React.Component<IStateProps> {
   private store!: IStore;
 
   private clickComponent = async (name: string) => {
+    console.log("clicked component. about to dispatch push", name)
     await this.store.GetStore().dispatch(push(name));
   };
   public render() {

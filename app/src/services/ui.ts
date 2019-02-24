@@ -1,5 +1,3 @@
-import * as redux from "redux";
-
 import * as UIActions from "../actions/ui";
 import { IStore } from "../stores/store";
 import { Inject } from "typescript-ioc";
