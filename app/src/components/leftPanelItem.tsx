@@ -16,7 +16,7 @@ export class LeftPanelItem extends React.Component<IStateProps> {
 
   private clickComponent = async (name: string) => {
     console.log("clicked component. about to dispatch push", name)
-    await this.store.GetStore().dispatch(push(name));
+    this.store.GetHistory().push(name);
   };
   public render() {
     return (
